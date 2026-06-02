@@ -3,3 +3,7 @@ dist
 .DS_Store
 .vite
 *.log
+.netlify
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
