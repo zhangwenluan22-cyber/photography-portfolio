@@ -7,7 +7,17 @@ import {
   type ReactNode
 } from "react";
 import { siteConfig } from "../data/siteContent";
-import { getAdminSession, getJournalEntries, getStoredWorks, saveWorks, setAdminSession } from "./storage";
+import {
+  clearWorksDraft,
+  getAdminSession,
+  getJournalEntries,
+  getRepositoryWorks,
+  getWorkingWorks,
+  parseWorksJson,
+  saveWorksDraft,
+  serializeWorks,
+  setAdminSession
+} from "./storage";
 import { createId, slugify } from "./utils";
 import type { AdminWorkFormValues, JournalEntry, Work, WorkPhoto } from "../types";
 
@@ -17,12 +27,17 @@ interface SaveWorkPayload extends AdminWorkFormValues {
 
 interface PortfolioContextValue {
   works: Work[];
+  repositoryWorks: Work[];
   journalEntries: JournalEntry[];
   isAdminAuthenticated: boolean;
+  hasDraftChanges: boolean;
   login: (password: string) => boolean;
   logout: () => void;
   saveWorkItem: (payload: SaveWorkPayload, existingId?: string) => void;
   deleteWorkItem: (id: string) => void;
+  importWorksJson: (raw: string) => void;
+  resetWorksToRepository: () => void;
+  exportWorksJson: () => string;
 }
 
 const PortfolioContext = createContext<PortfolioContextValue | null>(null);
@@ -57,20 +72,30 @@ function buildWork(payload: SaveWorkPayload, existingId?: string): Work {
 }
 
 export function PortfolioProvider({ children }: { children: ReactNode }) {
-  const [works, setWorks] = useState<Work[]>(() => getStoredWorks());
+  const repositoryWorks = useMemo(() => getRepositoryWorks(), []);
+  const [works, setWorks] = useState<Work[]>(() => getWorkingWorks());
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(() =>
     getAdminSession()
   );
+  const hasDraftChanges =
+    serializeWorks(works) !== serializeWorks(repositoryWorks);
 
   useEffect(() => {
-    saveWorks(works);
-  }, [works]);
+    if (hasDraftChanges) {
+      saveWorksDraft(works);
+      return;
+    }
+
+    clearWorksDraft();
+  }, [hasDraftChanges, works]);
 
   const value = useMemo<PortfolioContextValue>(() => {
     return {
       works,
+      repositoryWorks,
       journalEntries: getJournalEntries(),
       isAdminAuthenticated,
+      hasDraftChanges,
       login: (password: string) => {
         const success = password === siteConfig.adminPassword;
         setIsAdminAuthenticated(success);
@@ -102,9 +127,19 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
       },
       deleteWorkItem: (id) => {
         setWorks((currentWorks) => currentWorks.filter((item) => item.id !== id));
+      },
+      importWorksJson: (raw) => {
+        const nextWorks = parseWorksJson(raw);
+        setWorks(nextWorks);
+      },
+      resetWorksToRepository: () => {
+        setWorks(repositoryWorks);
+      },
+      exportWorksJson: () => {
+        return serializeWorks(works);
       }
     };
-  }, [isAdminAuthenticated, works]);
+  }, [hasDraftChanges, isAdminAuthenticated, repositoryWorks, works]);
 
   return (
     <PortfolioContext.Provider value={value}>

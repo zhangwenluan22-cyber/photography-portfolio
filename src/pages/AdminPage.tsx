@@ -1,4 +1,4 @@
-import { useMemo, useState, type ChangeEvent, type FormEvent } from "react";
+import { useMemo, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { COLOR_TAGS, WORK_CATEGORIES, type AdminWorkFormValues, type ColorTag, type Work, type WorkPhoto } from "../types";
 import { usePortfolio } from "../lib/portfolio-context";
 import { fileToVideoDataUrl, filesToWorkPhotos } from "../lib/image-utils";
@@ -39,14 +39,26 @@ function mapWorkToForm(work: Work): AdminWorkFormValues {
 }
 
 export function AdminPage() {
-  const { works, isAdminAuthenticated, login, logout, saveWorkItem, deleteWorkItem } =
-    usePortfolio();
+  const {
+    works,
+    isAdminAuthenticated,
+    login,
+    logout,
+    saveWorkItem,
+    deleteWorkItem,
+    exportWorksJson,
+    importWorksJson,
+    resetWorksToRepository,
+    hasDraftChanges
+  } = usePortfolio();
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [syncMessage, setSyncMessage] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formValues, setFormValues] = useState<AdminWorkFormValues>(emptyForm);
   const [photos, setPhotos] = useState<WorkPhoto[]>([]);
   const [isUploading, setIsUploading] = useState(false);
+  const importInputRef = useRef<HTMLInputElement | null>(null);
 
   const editingWork = useMemo(
     () => works.find((item) => item.id === editingId) ?? null,
@@ -58,6 +70,39 @@ export function AdminPage() {
     setFormValues(emptyForm);
     setPhotos([]);
     setError("");
+  };
+
+  const handleExportJson = () => {
+    const file = new Blob([exportWorksJson()], { type: "application/json" });
+    const url = window.URL.createObjectURL(file);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "works.json";
+    link.click();
+    window.URL.revokeObjectURL(url);
+    setSyncMessage(
+      "Downloaded works.json. Replace src/data/works.json with this file, then commit and push."
+    );
+  };
+
+  const handleImportJson = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    try {
+      const raw = await file.text();
+      importWorksJson(raw);
+      setSyncMessage("JSON imported into the current draft.");
+      setError("");
+    } catch (importError) {
+      const message =
+        importError instanceof Error ? importError.message : "Failed to import JSON.";
+      setError(message);
+    }
+
+    event.target.value = "";
   };
 
   const handleLogin = (event: FormEvent<HTMLFormElement>) => {
@@ -224,13 +269,68 @@ export function AdminPage() {
       <section className="stack-md">
         <div className="section-head">
           <div>
+            <h2 className="section-title">Content sync</h2>
+            <p className="muted-text">
+              The site now treats repository JSON as the long-term source of truth.
+              Draft edits stay in this browser until you export them back to
+              <code> src/data/works.json</code>, commit, and push.
+            </p>
+          </div>
+          <p className="muted-text">
+            {hasDraftChanges ? "Draft differs from repository JSON." : "Draft matches repository JSON."}
+          </p>
+        </div>
+
+        <div className="admin-sync-actions">
+          <button type="button" className="secondary-button" onClick={handleExportJson}>
+            Export works.json
+          </button>
+          <button
+            type="button"
+            className="secondary-button"
+            onClick={() => importInputRef.current?.click()}
+          >
+            Import works.json
+          </button>
+          <button
+            type="button"
+            className="secondary-button"
+            onClick={() => {
+              resetWorksToRepository();
+              setSyncMessage("Draft reset to repository JSON.");
+            }}
+          >
+            Reset to repository JSON
+          </button>
+          <input
+            ref={importInputRef}
+            type="file"
+            accept="application/json,.json"
+            className="visually-hidden"
+            onChange={handleImportJson}
+          />
+        </div>
+
+        <p className="muted-text">
+          Cross-computer workflow: export <code>works.json</code>, replace
+          <code>src/data/works.json</code> with the downloaded file, then run
+          <code>git add .</code>, <code>git commit</code>, and <code>git push</code>.
+        </p>
+
+        {syncMessage ? <p className="muted-text">{syncMessage}</p> : null}
+        {error ? <p className="error-text">{error}</p> : null}
+      </section>
+
+      <section className="stack-md">
+        <div className="section-head">
+          <div>
             <h2 className="section-title">
               {editingId ? "Edit project" : "Add new project"}
             </h2>
             <p className="muted-text">
-              Uploaded photos are compressed and stored in localStorage for now, so
-              the structure is easy to replace with cloud storage later. Optional
-              live clips are stored in the browser too, so shorter clips work best.
+              Uploaded photos and live clips are still kept in the browser while you
+              edit. Exporting JSON lets you move the metadata and embedded media to
+              another computer through Git.
             </p>
           </div>
           {editingId ? (
@@ -406,8 +506,6 @@ export function AdminPage() {
               ))}
             </div>
           ) : null}
-
-          {error ? <p className="error-text">{error}</p> : null}
 
           <button type="submit" className="primary-button">
             {editingId ? "Save changes" : "Create work"}
