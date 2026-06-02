@@ -506,6 +506,16 @@ button {
   gap: 10px;
 }
 
+.preview-placeholder {
+  display: flex;
+  aspect-ratio: 4 / 5;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  color: var(--text-soft);
+  background: rgba(255, 255, 255, 0.28);
+}
+
 .admin-list {
   display: flex;
   flex-direction: column;

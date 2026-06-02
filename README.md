@@ -41,6 +41,7 @@ npm run build
 
 - Repository content lives in `src/data/works.json`
 - Admin edits are kept as a browser draft until you export a new `works.json` and commit it
+- For a lighter long-term setup, store media files in `public/uploads` and reference them in JSON with `/uploads/...` paths
 - Uploaded images are compressed in the browser before saving to reduce storage usage
 - Live-photo clips are optional and are also stored in the browser, so short videos are recommended
 - The code is organized so you can later replace `localStorage` with an API, database, or cloud storage service by updating the files in `src/lib`

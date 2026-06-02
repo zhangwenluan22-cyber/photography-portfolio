@@ -57,6 +57,19 @@ export function parseWorksJson(raw: string): Work[] {
   return works as Work[];
 }
 
+export function countEmbeddedMedia(works: Work[]) {
+  return works.reduce(
+    (count, work) =>
+      count +
+      work.photos.reduce((photoCount, photo) => {
+        const imageEmbedded = photo.src.startsWith("data:") ? 1 : 0;
+        const videoEmbedded = photo.livePhotoVideo?.startsWith("data:") ? 1 : 0;
+        return photoCount + imageEmbedded + videoEmbedded;
+      }, 0),
+    0
+  );
+}
+
 export function getJournalEntries(): JournalEntry[] {
   return journalEntries;
 }

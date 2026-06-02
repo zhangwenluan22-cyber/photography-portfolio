@@ -49,7 +49,8 @@ export function AdminPage() {
     exportWorksJson,
     importWorksJson,
     resetWorksToRepository,
-    hasDraftChanges
+    hasDraftChanges,
+    embeddedMediaCount
   } = usePortfolio();
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -151,6 +152,48 @@ export function AdminPage() {
 
   const handlePhotoRemove = (photoId: string) => {
     setPhotos((current) => current.filter((photo) => photo.id !== photoId));
+  };
+
+  const handlePhotoPathChange = (
+    photoId: string,
+    field: "src" | "livePhotoVideo",
+    value: string
+  ) => {
+    setPhotos((current) =>
+      current.map((photo) =>
+        photo.id === photoId
+          ? {
+              ...photo,
+              [field]: value.trim() || undefined
+            }
+          : photo
+      )
+    );
+  };
+
+  const handlePhotoAltChange = (photoId: string, value: string) => {
+    setPhotos((current) =>
+      current.map((photo) =>
+        photo.id === photoId
+          ? {
+              ...photo,
+              alt: value
+            }
+          : photo
+      )
+    );
+  };
+
+  const addManualPhoto = () => {
+    setPhotos((current) => [
+      ...current,
+      {
+        id: `photo-manual-${Date.now()}`,
+        src: "",
+        alt: "",
+        livePhotoVideo: ""
+      }
+    ]);
   };
 
   const handleLiveClipUpload = async (photoId: string, file?: File) => {
@@ -281,6 +324,12 @@ export function AdminPage() {
           </p>
         </div>
 
+        <p className="muted-text">
+          {embeddedMediaCount > 0
+            ? `Current draft still contains ${embeddedMediaCount} embedded media item(s). For a lighter repo, move files into public/uploads and replace them with /uploads/... paths below.`
+            : "Current draft is repository-friendly: media is path-based rather than embedded."}
+        </p>
+
         <div className="admin-sync-actions">
           <button type="button" className="secondary-button" onClick={handleExportJson}>
             Export works.json
@@ -317,6 +366,12 @@ export function AdminPage() {
           <code>git add .</code>, <code>git commit</code>, and <code>git push</code>.
         </p>
 
+        <p className="muted-text">
+          Recommended long-term setup: place image files in <code>public/uploads</code>
+          and use paths like <code>/uploads/my-series/frame-01.jpg</code>. Do the same
+          for optional live clips, such as <code>/uploads/my-series/frame-01.mp4</code>.
+        </p>
+
         {syncMessage ? <p className="muted-text">{syncMessage}</p> : null}
         {error ? <p className="error-text">{error}</p> : null}
       </section>
@@ -328,9 +383,10 @@ export function AdminPage() {
               {editingId ? "Edit project" : "Add new project"}
             </h2>
             <p className="muted-text">
-              Uploaded photos and live clips are still kept in the browser while you
-              edit. Exporting JSON lets you move the metadata and embedded media to
-              another computer through Git.
+              For the cleanest Git workflow, prefer path-based media in
+              <code>public/uploads</code>. Browser uploads are still available for quick
+              draft work, but they create heavier embedded JSON until you swap them to
+              file paths.
             </p>
           </div>
           {editingId ? (
@@ -338,6 +394,12 @@ export function AdminPage() {
               Cancel editing
             </button>
           ) : null}
+        </div>
+
+        <div className="admin-sync-actions">
+          <button type="button" className="secondary-button" onClick={addManualPhoto}>
+            Add path-based photo slot
+          </button>
         </div>
 
         <form className="admin-form stack-md" onSubmit={handleSubmit}>
@@ -470,7 +532,29 @@ export function AdminPage() {
             <div className="photo-preview-grid">
               {photos.map((photo) => (
                 <figure key={photo.id} className="preview-item">
-                  <img src={photo.src} alt={photo.alt} />
+                  {photo.src ? (
+                    <img src={photo.src} alt={photo.alt || "Photo preview"} />
+                  ) : (
+                    <div className="preview-placeholder">No image source yet</div>
+                  )}
+                  <label className="field">
+                    <span>Image path or source</span>
+                    <input
+                      value={photo.src}
+                      onChange={(event) =>
+                        handlePhotoPathChange(photo.id, "src", event.target.value)
+                      }
+                      placeholder="/uploads/series/photo-01.jpg"
+                    />
+                  </label>
+                  <label className="field">
+                    <span>Alt text</span>
+                    <input
+                      value={photo.alt}
+                      onChange={(event) => handlePhotoAltChange(photo.id, event.target.value)}
+                      placeholder="Describe the photograph"
+                    />
+                  </label>
                   <label className="field field-file">
                     <span>Live clip</span>
                     <input
@@ -485,6 +569,16 @@ export function AdminPage() {
                         ? "Live clip attached"
                         : "Optional short video for long-press preview"}
                     </small>
+                  </label>
+                  <label className="field">
+                    <span>Live clip path</span>
+                    <input
+                      value={photo.livePhotoVideo ?? ""}
+                      onChange={(event) =>
+                        handlePhotoPathChange(photo.id, "livePhotoVideo", event.target.value)
+                      }
+                      placeholder="/uploads/series/photo-01.mp4"
+                    />
                   </label>
                   {photo.livePhotoVideo ? (
                     <button

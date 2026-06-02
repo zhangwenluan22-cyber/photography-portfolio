@@ -13,6 +13,7 @@ import {
   getJournalEntries,
   getRepositoryWorks,
   getWorkingWorks,
+  countEmbeddedMedia,
   parseWorksJson,
   saveWorksDraft,
   serializeWorks,
@@ -31,6 +32,7 @@ interface PortfolioContextValue {
   journalEntries: JournalEntry[];
   isAdminAuthenticated: boolean;
   hasDraftChanges: boolean;
+  embeddedMediaCount: number;
   login: (password: string) => boolean;
   logout: () => void;
   saveWorkItem: (payload: SaveWorkPayload, existingId?: string) => void;
@@ -79,6 +81,7 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
   );
   const hasDraftChanges =
     serializeWorks(works) !== serializeWorks(repositoryWorks);
+  const embeddedMediaCount = countEmbeddedMedia(works);
 
   useEffect(() => {
     if (hasDraftChanges) {
@@ -96,6 +99,7 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
       journalEntries: getJournalEntries(),
       isAdminAuthenticated,
       hasDraftChanges,
+      embeddedMediaCount,
       login: (password: string) => {
         const success = password === siteConfig.adminPassword;
         setIsAdminAuthenticated(success);
@@ -139,7 +143,7 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
         return serializeWorks(works);
       }
     };
-  }, [hasDraftChanges, isAdminAuthenticated, repositoryWorks, works]);
+  }, [embeddedMediaCount, hasDraftChanges, isAdminAuthenticated, repositoryWorks, works]);
 
   return (
     <PortfolioContext.Provider value={value}>
