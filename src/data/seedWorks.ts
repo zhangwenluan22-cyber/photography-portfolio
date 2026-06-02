@@ -1,0 +1,190 @@
+import type { Work } from "../types";
+
+export const seedWorks: Work[] = [
+  {
+    id: "nature-breathing-ground",
+    slug: "breathing-ground",
+    title: "Breathing Ground",
+    subtitle: "An afternoon of green light and distance",
+    description:
+      "A quiet walk through open lawns and tall trees. I was interested in how people dissolve into the scale of the park, becoming part of the atmosphere rather than the center of it.",
+    category: "Nature",
+    colorTags: ["green", "soft"],
+    location: "Melbourne",
+    date: "2025-03-10",
+    cameraSettings: {
+      camera: "Sony Alpha",
+      lens: "50mm",
+      iso: "200",
+      shutter: "1/500",
+      aperture: "f/2.8",
+      focalLength: "50mm"
+    },
+    featured: true,
+    photos: [
+      {
+        id: "breathing-ground-1",
+        src: "/images/samples/IMG_0627.jpg",
+        alt: "A person sitting on a bench in a quiet green park"
+      },
+      {
+        id: "breathing-ground-2",
+        src: "/images/samples/IMG_0640.jpg",
+        alt: "People resting near a patch of water under trees"
+      },
+      {
+        id: "breathing-ground-3",
+        src: "/images/samples/IMG_0643.jpg",
+        alt: "Sunlit grass with people scattered in the distance"
+      }
+    ]
+  },
+  {
+    id: "city-after-rain",
+    slug: "city-after-rain",
+    title: "City After Rain",
+    subtitle: "Muted reflections and a cooler pace",
+    description:
+      "I like cities most when they feel slightly washed out, after weather has taken some urgency out of the streets. These frames lean into cooler tones and the softness that appears after rain.",
+    category: "City",
+    colorTags: ["blue", "soft", "night"],
+    location: "Shanghai",
+    date: "2025-05-29",
+    cameraSettings: {
+      camera: "Sony Alpha",
+      lens: "24-70mm",
+      iso: "640",
+      shutter: "1/125",
+      aperture: "f/4"
+    },
+    featured: true,
+    photos: [
+      {
+        id: "city-after-rain-1",
+        src: "/images/samples/SAM_0174.JPG",
+        alt: "Quiet city scene with cool tones"
+      },
+      {
+        id: "city-after-rain-2",
+        src: "/images/samples/SAM_0176.JPG",
+        alt: "Street details after rain"
+      },
+      {
+        id: "city-after-rain-3",
+        src: "/images/samples/SAM_0188.JPG",
+        alt: "Urban geometry in soft light"
+      }
+    ]
+  },
+  {
+    id: "portrait-in-window-light",
+    slug: "portrait-in-window-light",
+    title: "Portrait in Window Light",
+    subtitle: "Nearness, pause, and soft contrast",
+    description:
+      "A small portrait sequence built around natural window light. I wanted the expressions to remain unforced, letting stillness do most of the work.",
+    category: "Portrait",
+    colorTags: ["warm", "soft"],
+    location: "Home studio",
+    date: "2025-05-30",
+    cameraSettings: {
+      camera: "Sony Alpha",
+      lens: "85mm",
+      iso: "320",
+      shutter: "1/250",
+      aperture: "f/2",
+      focalLength: "85mm"
+    },
+    featured: false,
+    photos: [
+      {
+        id: "portrait-window-1",
+        src: "/images/samples/SAM_0185.JPG",
+        alt: "Portrait in soft window light"
+      },
+      {
+        id: "portrait-window-2",
+        src: "/images/samples/SAM_0190.JPG",
+        alt: "Portrait with gentle warm tones"
+      },
+      {
+        id: "portrait-window-3",
+        src: "/images/samples/SAM_0195.JPG",
+        alt: "Close portrait in quiet natural light"
+      }
+    ]
+  },
+  {
+    id: "travel-notes",
+    slug: "travel-notes",
+    title: "Travel Notes",
+    subtitle: "Passing views collected on the move",
+    description:
+      "Travel photographs often begin as fragments. A window, a crossing, a brief stop, the color of late afternoon on unfamiliar streets. I keep them loose and orderly at the same time.",
+    category: "Travel",
+    colorTags: ["blue", "warm"],
+    location: "Regional journey",
+    date: "2025-05-31",
+    cameraSettings: {
+      camera: "Sony Alpha",
+      lens: "35mm",
+      iso: "400",
+      shutter: "1/320",
+      aperture: "f/3.5",
+      focalLength: "35mm"
+    },
+    featured: true,
+    photos: [
+      {
+        id: "travel-notes-1",
+        src: "/images/samples/SAM_0199.JPG",
+        alt: "Travel photograph with open space"
+      },
+      {
+        id: "travel-notes-2",
+        src: "/images/samples/SAM_0205.JPG",
+        alt: "A passing travel scene in quiet light"
+      },
+      {
+        id: "travel-notes-3",
+        src: "/images/samples/SAM_0224.JPG",
+        alt: "Landscape details collected during travel"
+      }
+    ]
+  },
+  {
+    id: "everyday-intervals",
+    slug: "everyday-intervals",
+    title: "Everyday Intervals",
+    subtitle: "Small scenes between one task and the next",
+    description:
+      "The ordinary is often where color feels most honest. These images stay close to domestic rhythm, evening light, and the modest drama of things being quietly in place.",
+    category: "Everyday",
+    colorTags: ["warm", "black and white"],
+    location: "Home and neighborhood",
+    date: "2025-06-01",
+    cameraSettings: {
+      camera: "Sony Alpha",
+      iso: "500",
+      shutter: "1/160"
+    },
+    featured: false,
+    photos: [
+      {
+        id: "everyday-intervals-1",
+        src: "/images/samples/SAM_0235.JPG",
+        alt: "An everyday scene with gentle light"
+      },
+      {
+        id: "everyday-intervals-2",
+        src: "/images/samples/SAM_0254.jpg",
+        alt: "A small quiet moment from daily life"
+      },
+      {
+        id: "everyday-intervals-3",
+        src: "/images/samples/IMG_0639.JPG",
+        alt: "Simple composition from daily surroundings"
+      }
+    ]
+  }
+];
