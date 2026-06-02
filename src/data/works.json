@@ -1,183 +1,244 @@
 [
   {
-    "id": "nature-breathing-ground",
-    "slug": "breathing-ground",
-    "title": "Breathing Ground",
-    "subtitle": "An afternoon of green light and distance",
-    "description": "A quiet walk through open lawns and tall trees. I was interested in how people dissolve into the scale of the park, becoming part of the atmosphere rather than the center of it.",
-    "category": "Nature",
-    "colorTags": ["green", "soft"],
-    "location": "Melbourne",
-    "date": "2025-03-10",
-    "cameraSettings": {
-      "camera": "Sony Alpha",
-      "lens": "50mm",
-      "iso": "200",
-      "shutter": "1/500",
-      "aperture": "f/2.8",
-      "focalLength": "50mm"
-    },
-    "featured": true,
-    "photos": [
-      {
-        "id": "breathing-ground-1",
-        "src": "/images/samples/IMG_0627.jpg",
-        "alt": "A person sitting on a bench in a quiet green park"
-      },
-      {
-        "id": "breathing-ground-2",
-        "src": "/images/samples/IMG_0640.jpg",
-        "alt": "People resting near a patch of water under trees"
-      },
-      {
-        "id": "breathing-ground-3",
-        "src": "/images/samples/IMG_0643.jpg",
-        "alt": "Sunlit grass with people scattered in the distance"
-      }
-    ]
-  },
-  {
-    "id": "city-after-rain",
-    "slug": "city-after-rain",
-    "title": "City After Rain",
-    "subtitle": "Muted reflections and a cooler pace",
-    "description": "I like cities most when they feel slightly washed out, after weather has taken some urgency out of the streets. These frames lean into cooler tones and the softness that appears after rain.",
+    "id": "city",
+    "slug": "city",
+    "title": "City",
+    "subtitle": "",
+    "description": "",
     "category": "City",
-    "colorTags": ["blue", "soft", "night"],
-    "location": "Shanghai",
-    "date": "2025-05-29",
-    "cameraSettings": {
-      "camera": "Sony Alpha",
-      "lens": "24-70mm",
-      "iso": "640",
-      "shutter": "1/125",
-      "aperture": "f/4"
-    },
+    "colorTags": [
+      "warm",
+      "soft"
+    ],
     "featured": true,
     "photos": [
       {
-        "id": "city-after-rain-1",
-        "src": "/images/samples/SAM_0174.JPG",
-        "alt": "Quiet city scene with cool tones"
+        "id": "city-cover",
+        "src": "/uploads/_covers/02-City-001.JPG",
+        "alt": "02 City 001"
       },
       {
-        "id": "city-after-rain-2",
-        "src": "/images/samples/SAM_0176.JPG",
-        "alt": "Street details after rain"
-      },
-      {
-        "id": "city-after-rain-3",
-        "src": "/images/samples/SAM_0188.JPG",
-        "alt": "Urban geometry in soft light"
+        "id": "city-1",
+        "src": "/uploads/City/City-001.JPG",
+        "alt": "City 001",
+        "colorTags": [
+          "warm",
+          "soft"
+        ]
       }
-    ]
+    ],
+    "featuredRank": 2
   },
   {
-    "id": "portrait-in-window-light",
-    "slug": "portrait-in-window-light",
-    "title": "Portrait in Window Light",
-    "subtitle": "Nearness, pause, and soft contrast",
-    "description": "A small portrait sequence built around natural window light. I wanted the expressions to remain unforced, letting stillness do most of the work.",
-    "category": "Portrait",
-    "colorTags": ["warm", "soft"],
-    "location": "Home studio",
-    "date": "2025-05-30",
-    "cameraSettings": {
-      "camera": "Sony Alpha",
-      "lens": "85mm",
-      "iso": "320",
-      "shutter": "1/250",
-      "aperture": "f/2",
-      "focalLength": "85mm"
-    },
-    "featured": false,
-    "photos": [
-      {
-        "id": "portrait-window-1",
-        "src": "/images/samples/SAM_0185.JPG",
-        "alt": "Portrait in soft window light"
-      },
-      {
-        "id": "portrait-window-2",
-        "src": "/images/samples/SAM_0190.JPG",
-        "alt": "Portrait with gentle warm tones"
-      },
-      {
-        "id": "portrait-window-3",
-        "src": "/images/samples/SAM_0195.JPG",
-        "alt": "Close portrait in quiet natural light"
-      }
-    ]
-  },
-  {
-    "id": "travel-notes",
-    "slug": "travel-notes",
-    "title": "Travel Notes",
-    "subtitle": "Passing views collected on the move",
-    "description": "Travel photographs often begin as fragments. A window, a crossing, a brief stop, the color of late afternoon on unfamiliar streets. I keep them loose and orderly at the same time.",
-    "category": "Travel",
-    "colorTags": ["blue", "warm"],
-    "location": "Regional journey",
-    "date": "2025-05-31",
-    "cameraSettings": {
-      "camera": "Sony Alpha",
-      "lens": "35mm",
-      "iso": "400",
-      "shutter": "1/320",
-      "aperture": "f/3.5",
-      "focalLength": "35mm"
-    },
-    "featured": true,
-    "photos": [
-      {
-        "id": "travel-notes-1",
-        "src": "/images/samples/SAM_0199.JPG",
-        "alt": "Travel photograph with open space"
-      },
-      {
-        "id": "travel-notes-2",
-        "src": "/images/samples/SAM_0205.JPG",
-        "alt": "A passing travel scene in quiet light"
-      },
-      {
-        "id": "travel-notes-3",
-        "src": "/images/samples/SAM_0224.JPG",
-        "alt": "Landscape details collected during travel"
-      }
-    ]
-  },
-  {
-    "id": "everyday-intervals",
-    "slug": "everyday-intervals",
-    "title": "Everyday Intervals",
-    "subtitle": "Small scenes between one task and the next",
-    "description": "The ordinary is often where color feels most honest. These images stay close to domestic rhythm, evening light, and the modest drama of things being quietly in place.",
+    "id": "everyday",
+    "slug": "everyday",
+    "title": "Everyday",
+    "subtitle": "",
+    "description": "",
     "category": "Everyday",
-    "colorTags": ["warm", "black and white"],
-    "location": "Home and neighborhood",
-    "date": "2025-06-01",
-    "cameraSettings": {
-      "camera": "Sony Alpha",
-      "iso": "500",
-      "shutter": "1/160"
-    },
+    "colorTags": [
+      "green",
+      "blue",
+      "warm",
+      "soft"
+    ],
+    "featured": true,
+    "photos": [
+      {
+        "id": "everyday-cover",
+        "src": "/uploads/_covers/01-Everyday-002.JPG",
+        "alt": "01 Everyday 002"
+      },
+      {
+        "id": "everyday-1",
+        "src": "/uploads/Everyday/Everyday-001.JPG",
+        "alt": "Everyday 001",
+        "colorTags": [
+          "green",
+          "blue",
+          "warm",
+          "soft"
+        ]
+      },
+      {
+        "id": "everyday-2",
+        "src": "/uploads/Everyday/Everyday-002.JPG",
+        "alt": "Everyday 002",
+        "colorTags": [
+          "green",
+          "soft"
+        ]
+      },
+      {
+        "id": "everyday-3",
+        "src": "/uploads/Everyday/Everyday-003.JPG",
+        "alt": "Everyday 003",
+        "colorTags": [
+          "blue",
+          "warm",
+          "soft"
+        ]
+      },
+      {
+        "id": "everyday-4",
+        "src": "/uploads/Everyday/Everyday-004.jpg",
+        "alt": "Everyday 004",
+        "colorTags": [
+          "blue"
+        ]
+      }
+    ],
+    "featuredRank": 1
+  },
+  {
+    "id": "nature",
+    "slug": "nature",
+    "title": "Nature",
+    "subtitle": "",
+    "description": "",
+    "category": "Nature",
+    "colorTags": [
+      "warm",
+      "black and white",
+      "soft",
+      "green"
+    ],
     "featured": false,
     "photos": [
       {
-        "id": "everyday-intervals-1",
-        "src": "/images/samples/SAM_0235.JPG",
-        "alt": "An everyday scene with gentle light"
+        "id": "nature-1",
+        "src": "/uploads/Nature/Nature-001.jpg",
+        "alt": "Nature 001",
+        "colorTags": [
+          "warm",
+          "black and white",
+          "soft"
+        ]
       },
       {
-        "id": "everyday-intervals-2",
-        "src": "/images/samples/SAM_0254.jpg",
-        "alt": "A small quiet moment from daily life"
+        "id": "nature-2",
+        "src": "/uploads/Nature/Nature-002.JPG",
+        "alt": "Nature 002",
+        "colorTags": [
+          "green",
+          "soft"
+        ]
       },
       {
-        "id": "everyday-intervals-3",
-        "src": "/images/samples/IMG_0639.JPG",
-        "alt": "Simple composition from daily surroundings"
+        "id": "nature-3",
+        "src": "/uploads/Nature/Nature-003.jpg",
+        "alt": "Nature 003",
+        "colorTags": [
+          "green",
+          "warm"
+        ]
+      },
+      {
+        "id": "nature-4",
+        "src": "/uploads/Nature/Nature-004.JPG",
+        "alt": "Nature 004",
+        "colorTags": [
+          "green",
+          "warm"
+        ]
+      },
+      {
+        "id": "nature-5",
+        "src": "/uploads/Nature/Nature-005.jpg",
+        "alt": "Nature 005",
+        "colorTags": [
+          "green"
+        ]
       }
     ]
+  },
+  {
+    "id": "travel",
+    "slug": "travel",
+    "title": "Travel",
+    "subtitle": "",
+    "description": "",
+    "category": "Travel",
+    "colorTags": [
+      "black and white",
+      "soft",
+      "blue",
+      "warm"
+    ],
+    "featured": true,
+    "photos": [
+      {
+        "id": "travel-cover",
+        "src": "/uploads/_covers/03-Travel-004.JPG",
+        "alt": "03 Travel 004"
+      },
+      {
+        "id": "travel-1",
+        "src": "/uploads/Travel/Travel-001.JPG",
+        "alt": "Travel 001",
+        "colorTags": [
+          "black and white",
+          "soft"
+        ]
+      },
+      {
+        "id": "travel-2",
+        "src": "/uploads/Travel/Travel-002.JPG",
+        "alt": "Travel 002",
+        "colorTags": [
+          "blue",
+          "warm",
+          "soft"
+        ]
+      },
+      {
+        "id": "travel-3",
+        "src": "/uploads/Travel/Travel-003.JPG",
+        "alt": "Travel 003",
+        "colorTags": [
+          "warm",
+          "soft"
+        ]
+      },
+      {
+        "id": "travel-4",
+        "src": "/uploads/Travel/Travel-004.JPG",
+        "alt": "Travel 004",
+        "colorTags": [
+          "black and white",
+          "soft"
+        ]
+      },
+      {
+        "id": "travel-5",
+        "src": "/uploads/Travel/Travel-005.JPG",
+        "alt": "Travel 005",
+        "colorTags": [
+          "blue",
+          "warm",
+          "soft"
+        ]
+      },
+      {
+        "id": "travel-6",
+        "src": "/uploads/Travel/Travel-006.JPG",
+        "alt": "Travel 006",
+        "colorTags": [
+          "blue",
+          "warm",
+          "soft"
+        ]
+      },
+      {
+        "id": "travel-7",
+        "src": "/uploads/Travel/Travel-007.JPG",
+        "alt": "Travel 007",
+        "colorTags": [
+          "blue",
+          "soft"
+        ]
+      }
+    ],
+    "featuredRank": 3
   }
 ]

@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { COLOR_TAGS, WORK_CATEGORIES, type ColorTag, type WorkCategory } from "../types";
-import { WorkGrid } from "../components/WorkGrid";
+import { WorkPhotoGrid } from "../components/WorkPhotoGrid";
 import { usePortfolio } from "../lib/portfolio-context";
 
 type CategoryFilter = WorkCategory | "All";
@@ -14,10 +14,41 @@ export function WorksPage() {
   const filteredWorks = useMemo(() => {
     return works.filter((work) => {
       const matchesCategory = category === "All" || work.category === category;
-      const matchesTag = tag === "All" || work.colorTags.includes(tag);
-      return matchesCategory && matchesTag;
+      return matchesCategory;
     });
-  }, [category, tag, works]);
+  }, [category, works]);
+
+  const visiblePhotos = useMemo(() => {
+    return filteredWorks.flatMap((work) =>
+      work.photos
+        .filter((photo) => !photo.id.endsWith("-cover"))
+        .filter((photo) => {
+          if (tag === "All") {
+            return true;
+          }
+
+          return Boolean(photo.colorTags?.includes(tag));
+        })
+        .map((photo) => ({
+          work,
+          photo
+        }))
+    );
+  }, [filteredWorks, tag]);
+
+  const totalPhotoCount = useMemo(
+    () =>
+      works.reduce(
+        (count, work) => count + work.photos.filter((photo) => !photo.id.endsWith("-cover")).length,
+        0
+      ),
+    [works]
+  );
+
+  const resultLabel =
+    category === "All" && tag === "All"
+      ? `Showing all ${visiblePhotos.length} photographs from ${filteredWorks.length} series`
+      : `Showing ${visiblePhotos.length} of ${totalPhotoCount} photographs`;
 
   return (
     <div className="stack-lg">
@@ -25,8 +56,8 @@ export function WorksPage() {
         <p className="eyebrow">Works</p>
         <h1 className="page-title">Projects arranged with room to breathe</h1>
         <p className="page-intro">
-          Filter by theme or color mood. The grid stays measured and quiet so the
-          images carry the page.
+          Filter by the folders you use to organize the archive. The grid stays
+          measured and quiet so the images carry the page.
         </p>
       </section>
 
@@ -59,7 +90,9 @@ export function WorksPage() {
         </label>
       </section>
 
-      <WorkGrid works={filteredWorks} />
+      <p className="filter-summary">{resultLabel}</p>
+
+      <WorkPhotoGrid items={visiblePhotos} />
     </div>
   );
 }

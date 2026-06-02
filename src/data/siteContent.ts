@@ -1,7 +1,7 @@
 import type { JournalEntry } from "../types";
 
 export const siteConfig = {
-  title: "LIN QUIET LIGHT",
+  title: "ZHANG ARCHIVE",
   homeHeadline: "Quiet photographs for slow attention.",
   homeIntro:
     "A small collection of light, weather, distance, and the ordinary rhythm of looking.",

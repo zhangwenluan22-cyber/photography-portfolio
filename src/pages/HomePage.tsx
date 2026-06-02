@@ -5,7 +5,10 @@ import { WorkGrid } from "../components/WorkGrid";
 
 export function HomePage() {
   const { works } = usePortfolio();
-  const featuredWorks = works.filter((item) => item.featured).slice(0, 3);
+  const featuredWorks = works
+    .filter((item) => item.featured)
+    .sort((a, b) => (a.featuredRank ?? 999) - (b.featuredRank ?? 999))
+    .slice(0, 3);
 
   return (
     <div className="stack-xl">

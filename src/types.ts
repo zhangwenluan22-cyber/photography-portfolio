@@ -31,6 +31,7 @@ export interface WorkPhoto {
   id: string;
   src: string;
   alt: string;
+  colorTags?: ColorTag[];
   livePhotoVideo?: string;
 }
 
@@ -47,6 +48,7 @@ export interface Work {
   cameraSettings?: CameraSettings;
   photos: WorkPhoto[];
   featured?: boolean;
+  featuredRank?: number;
 }
 
 export interface JournalEntry {
