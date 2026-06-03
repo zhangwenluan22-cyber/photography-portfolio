@@ -239,7 +239,7 @@
     "photos": [
       {
         "id": "kamakura-1",
-        "src": "/uploads/Kamakura/Kamakura-001.JPG",
+        "src": "/uploads/Kamakura/Kamakura-001.jpg",
         "alt": "Kamakura 001",
         "colorTags": []
       },
@@ -247,12 +247,6 @@
         "id": "kamakura-2",
         "src": "/uploads/Kamakura/Kamakura-002.jpg",
         "alt": "Kamakura 002",
-        "colorTags": []
-      },
-      {
-        "id": "kamakura-3",
-        "src": "/uploads/Kamakura/Kamakura-003.jpg",
-        "alt": "Kamakura 003",
         "colorTags": []
       }
     ]
@@ -310,14 +304,8 @@
       },
       {
         "id": "nature-7",
-        "src": "/uploads/Nature/Nature-007.JPG",
+        "src": "/uploads/Nature/Nature-007.jpg",
         "alt": "Nature 007",
-        "colorTags": []
-      },
-      {
-        "id": "nature-8",
-        "src": "/uploads/Nature/Nature-008.jpg",
-        "alt": "Nature 008",
         "colorTags": []
       }
     ],
