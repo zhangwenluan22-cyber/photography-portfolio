@@ -150,12 +150,43 @@ git push
 
 Netlify will deploy automatically after push.
 
-## 9. Site links
+## 9. GitHub push notes
+
+If Git says:
+
+```text
+Your branch is ahead of 'origin/main' by 1 commit.
+```
+
+The code is already committed. Only push is missing.
+
+If push fails, check GitHub authentication first.
+
+For HTTPS push:
+
+```text
+Username: zhangwenluan22-cyber
+Password: GitHub Personal Access Token
+```
+
+Do not use the normal GitHub login password as the password.
+
+Never share or screenshot the token. If the token leaks, delete it immediately
+and create a new one.
+
+## 10. Netlify deployment
+
+Netlify deploys automatically after `main` is pushed to GitHub.
+
+Wait 1-3 minutes after pushing. If the page still looks old, hard refresh the
+browser.
+
+## 11. Site links
 
 - GitHub repo: [https://github.com/zhangwenluan22-cyber/photography-portfolio](https://github.com/zhangwenluan22-cyber/photography-portfolio)
 - Live site: [https://quiet-photography-portfolio.netlify.app/](https://quiet-photography-portfolio.netlify.app/)
 
-## 10. Good prompt for Codex
+## 12. Good prompt for Codex
 
 ```text
 Please read PROJECT_NOTES.md and HOME_COMPUTER_WORKFLOW.md first, then inspect the codebase and help me update the photography site. Media lives in public/uploads and I sync content with npm run sync:works.
