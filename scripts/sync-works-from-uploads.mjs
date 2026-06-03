@@ -1,4 +1,4 @@
-import { readdir, rename, stat, unlink, writeFile } from "node:fs/promises";
+import { readFile, readdir, rename, stat, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -6,7 +6,9 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const uploadsDir = path.join(rootDir, "public", "uploads");
 const coversDir = path.join(uploadsDir, "_covers");
 const outputFile = path.join(rootDir, "src", "data", "works.json");
+const orientationOverridesFile = path.join(rootDir, "src", "data", "photoOrientationOverrides.json");
 const ffmpegPath = "/opt/homebrew/bin/ffmpeg";
+const sipsPath = "/usr/bin/sips";
 
 const categories = new Set([
   "Nature",
@@ -81,6 +83,26 @@ const isHeicExtension = (extension) => extension === ".heic";
 const isWebImageExtension = (extension) => webImageExtensions.has(extension);
 const isSourceImageExtension = (extension) => sourceImageExtensions.has(extension);
 
+const getImageOrientation = async (imagePath) => {
+  const { spawnSync } = await import("node:child_process");
+  const result = spawnSync(sipsPath, ["-g", "pixelWidth", "-g", "pixelHeight", imagePath], {
+    encoding: "utf8"
+  });
+
+  if (result.status !== 0) {
+    return "portrait";
+  }
+
+  const widthMatch = result.stdout.match(/pixelWidth:\s*(\d+)/);
+  const heightMatch = result.stdout.match(/pixelHeight:\s*(\d+)/);
+
+  if (!widthMatch || !heightMatch) {
+    return "portrait";
+  }
+
+  return Number(widthMatch[1]) > Number(heightMatch[1]) ? "landscape" : "portrait";
+};
+
 const convertHeicToJpeg = async (inputPath, outputPath) => {
   const { spawnSync } = await import("node:child_process");
   const result = spawnSync(
@@ -142,6 +164,15 @@ const listVisibleEntries = async (dir) => {
       .sort((a, b) => a.name.localeCompare(b.name, "en"));
   } catch {
     return [];
+  }
+};
+
+const loadOrientationOverrides = async () => {
+  try {
+    const raw = await readFile(orientationOverridesFile, "utf8");
+    return JSON.parse(raw);
+  } catch {
+    return {};
   }
 };
 
@@ -213,7 +244,7 @@ const normalizeCategoryFiles = async (categoryName) => {
   );
 };
 
-const getSeriesPhotos = async (categoryName, seriesFolder = "") => {
+const getSeriesPhotos = async (categoryName, seriesFolder = "", orientationOverrides = {}) => {
   const seriesDir = path.join(uploadsDir, categoryName, seriesFolder);
   await ensureHeicDerivatives(seriesDir);
   const entries = await listVisibleEntries(seriesDir);
@@ -227,27 +258,32 @@ const getSeriesPhotos = async (categoryName, seriesFolder = "") => {
     }
   }
 
-  return media
+  return Promise.all(
+    media
     .filter((entry) => isWebImageExtension(path.extname(entry.name).toLowerCase()))
     .filter((entry) => !coverBaseNames.has(path.basename(entry.name, path.extname(entry.name)).toLowerCase()))
-    .map((entry, index) => {
+    .map(async (entry, index) => {
       const extension = path.extname(entry.name);
       const baseName = path.basename(entry.name, extension);
       const mediaPathParts = ["/uploads", categoryName, seriesFolder, entry.name].filter(Boolean);
       const src = mediaPathParts.join("/");
       const videoName = videosByBaseName.get(baseName);
       const videoPathParts = ["/uploads", categoryName, seriesFolder, videoName].filter(Boolean);
+      const orientation =
+        orientationOverrides[src] ?? (await getImageOrientation(path.join(seriesDir, entry.name)));
 
       return {
         id: `${slugify(seriesFolder || categoryName)}-${index + 1}`,
         src,
         alt: titleFromFolder(baseName),
+        orientation,
         colorTags: inferColorTags([seriesFolder, entry.name, baseName]),
         ...(videoName
           ? { livePhotoVideo: videoPathParts.join("/") }
           : {})
       };
-    });
+    })
+  );
 };
 
 const applyPhotoColorTags = async (works) => {
@@ -390,6 +426,7 @@ const getCoverPhoto = async (categoryName, seriesFolder = "") => {
 
 const syncWorks = async () => {
   const categoryEntries = await listVisibleEntries(uploadsDir);
+  const orientationOverrides = await loadOrientationOverrides();
   const works = [];
 
   for (const categoryEntry of categoryEntries) {
@@ -406,7 +443,11 @@ const syncWorks = async () => {
         continue;
       }
 
-      const photos = await getSeriesPhotos(categoryEntry.name, seriesEntry.name);
+      const photos = await getSeriesPhotos(
+        categoryEntry.name,
+        seriesEntry.name,
+        orientationOverrides
+      );
       if (photos.length === 0) {
         continue;
       }
@@ -433,7 +474,7 @@ const syncWorks = async () => {
       });
     }
 
-    const categoryPhotos = await getSeriesPhotos(categoryEntry.name);
+    const categoryPhotos = await getSeriesPhotos(categoryEntry.name, "", orientationOverrides);
     if (categoryPhotos.length > 0) {
       const title = categoryEntry.name;
       const slug = slugify(categoryEntry.name);

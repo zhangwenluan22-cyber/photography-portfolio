@@ -86,7 +86,37 @@ That command:
 - regenerates usable `jpg` files for `HEIC`
 - removes broken references after file deletions
 
-## 5. Check the result locally
+## 5. Manually override portrait / landscape grouping
+
+If a photo looks better in the vertical section or horizontal section than the automatic result, edit:
+
+```text
+src/data/photoOrientationOverrides.json
+```
+
+Example:
+
+```json
+{
+  "/uploads/City/City-001.JPG": "portrait",
+  "/uploads/City/City-004.JPG": "portrait",
+  "/uploads/ChiangMai/ChiangMai-002.jpg": "landscape"
+}
+```
+
+Rules:
+
+- left side = image path
+- `"portrait"` = show in the vertical group on `/works`
+- `"landscape"` = show in the horizontal group on `/works`
+
+After editing this file, run:
+
+```bash
+npm run sync:works
+```
+
+## 6. Check the result locally
 
 Run:
 
@@ -100,7 +130,7 @@ Then review:
 - `/works`
 - the clicked photo detail page
 
-## 6. Get the latest changes before editing
+## 7. Get the latest changes before editing
 
 If you have edited the project on another computer, pull first:
 
@@ -108,7 +138,7 @@ If you have edited the project on another computer, pull first:
 git pull --rebase origin main
 ```
 
-## 7. Publish updates
+## 8. Publish updates
 
 When everything looks right:
 
@@ -120,12 +150,12 @@ git push
 
 Netlify will deploy automatically after push.
 
-## 8. Site links
+## 9. Site links
 
 - GitHub repo: [https://github.com/zhangwenluan22-cyber/photography-portfolio](https://github.com/zhangwenluan22-cyber/photography-portfolio)
 - Live site: [https://quiet-photography-portfolio.netlify.app/](https://quiet-photography-portfolio.netlify.app/)
 
-## 9. Good prompt for Codex
+## 10. Good prompt for Codex
 
 ```text
 Please read PROJECT_NOTES.md and HOME_COMPUTER_WORKFLOW.md first, then inspect the codebase and help me update the photography site. Media lives in public/uploads and I sync content with npm run sync:works.

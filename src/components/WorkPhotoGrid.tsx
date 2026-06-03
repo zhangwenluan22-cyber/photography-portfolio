@@ -237,7 +237,7 @@ export function WorkPhotoGrid({
   const { portraitItems, landscapeItems } = useMemo(() => {
     const grouped = items.reduce(
       (groups, item) => {
-        const orientation = photoMeta[item.photo.src]?.orientation ?? "portrait";
+        const orientation = item.photo.orientation ?? photoMeta[item.photo.src]?.orientation ?? "portrait";
         groups[orientation === "landscape" ? "landscapeItems" : "portraitItems"].push(item);
         return groups;
       },

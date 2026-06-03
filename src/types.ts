@@ -38,6 +38,7 @@ export interface WorkPhoto {
   id: string;
   src: string;
   alt: string;
+  orientation?: "portrait" | "landscape";
   colorTags?: ColorTag[];
   livePhotoVideo?: string;
 }
