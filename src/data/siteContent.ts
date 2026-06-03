@@ -6,7 +6,8 @@ export const siteConfig = {
   homeIntro:
     "A small collection of light, weather, distance, and the ordinary rhythm of looking.",
   welcomeLine: "Welcome to my story",
-  adminPassword: "quiet-light-atelier",
+  adminQuestion: "What is my dream?",
+  adminAnswer: "writer",
   aboutTitle: "About",
   aboutParagraphs: [
     "I photograph landscapes, cities, portraits, and passing details with a preference for stillness over spectacle.",

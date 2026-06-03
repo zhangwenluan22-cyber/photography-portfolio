@@ -33,7 +33,7 @@ interface PortfolioContextValue {
   isAdminAuthenticated: boolean;
   hasDraftChanges: boolean;
   embeddedMediaCount: number;
-  login: (password: string) => boolean;
+  login: (answer: string) => boolean;
   logout: () => void;
   saveWorkItem: (payload: SaveWorkPayload, existingId?: string) => void;
   deleteWorkItem: (id: string) => void;
@@ -82,6 +82,7 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
   const hasDraftChanges =
     serializeWorks(works) !== serializeWorks(repositoryWorks);
   const embeddedMediaCount = countEmbeddedMedia(works);
+  const normalizeAdminAnswer = (value: string) => value.trim().toLowerCase();
 
   useEffect(() => {
     if (hasDraftChanges) {
@@ -100,8 +101,10 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
       isAdminAuthenticated,
       hasDraftChanges,
       embeddedMediaCount,
-      login: (password: string) => {
-        const success = password === siteConfig.adminPassword;
+      login: (answer: string) => {
+        const success =
+          normalizeAdminAnswer(answer) ===
+          normalizeAdminAnswer(siteConfig.adminAnswer);
         setIsAdminAuthenticated(success);
         setAdminSession(success);
         return success;

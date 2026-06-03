@@ -52,7 +52,7 @@ export function AdminPage() {
     hasDraftChanges,
     embeddedMediaCount
   } = usePortfolio();
-  const [password, setPassword] = useState("");
+  const [answer, setAnswer] = useState("");
   const [error, setError] = useState("");
   const [syncMessage, setSyncMessage] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -108,14 +108,14 @@ export function AdminPage() {
 
   const handleLogin = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const success = login(password);
+    const success = login(answer);
 
     if (!success) {
-      setError("Password is incorrect.");
+      setError("That answer does not unlock this room.");
       return;
     }
 
-    setPassword("");
+    setAnswer("");
     setError("");
   };
 
@@ -182,18 +182,6 @@ export function AdminPage() {
           : photo
       )
     );
-  };
-
-  const addManualPhoto = () => {
-    setPhotos((current) => [
-      ...current,
-      {
-        id: `photo-manual-${Date.now()}`,
-        src: "",
-        alt: "",
-        livePhotoVideo: ""
-      }
-    ]);
   };
 
   const handleLiveClipUpload = async (photoId: string, file?: File) => {
@@ -268,29 +256,31 @@ export function AdminPage() {
           <p className="eyebrow">Admin</p>
           <h1 className="page-title">Private editing access</h1>
           <p className="page-intro narrow-copy">
-            Only the admin page contains upload, edit, and delete controls. For a
-            later production launch, you can replace this simple password gate with
-            a proper auth system.
+            Only the admin page contains upload, edit, and delete controls. For now,
+            a private question keeps this room for the right person.
           </p>
         </div>
 
         <form className="admin-login" onSubmit={handleLogin}>
+          <p className="muted-text">
+            Prompt: <code>{siteConfig.adminQuestion}</code>
+          </p>
           <label className="field">
-            <span>Password</span>
+            <span>Answer</span>
             <input
               type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="Enter admin password"
+              value={answer}
+              onChange={(event) => setAnswer(event.target.value)}
+              placeholder="Type your answer"
             />
           </label>
           {error ? <p className="error-text">{error}</p> : null}
           <button type="submit" className="primary-button">
-            Enter admin
+            Unlock admin
           </button>
           <p className="muted-text">
-            Default password: <code>{siteConfig.adminPassword}</code>. Change it in
-            <code> src/data/siteContent.ts</code> before publishing.
+            Change the prompt and answer in <code>src/data/siteContent.ts</code>
+            before publishing.
           </p>
         </form>
       </section>
@@ -312,22 +302,45 @@ export function AdminPage() {
       <section className="stack-md">
         <div className="section-head">
           <div>
-            <h2 className="section-title">Content sync</h2>
+            <h2 className="section-title">How this page works</h2>
             <p className="muted-text">
-              The site now treats repository JSON as the long-term source of truth.
-              Draft edits stay in this browser until you export them back to
-              <code> src/data/works.json</code>, commit, and push.
+              This page should feel simple: choose a theme, add photos, write a short
+              title, then save. Everything else is optional.
+            </p>
+          </div>
+        </div>
+
+        <ol className="admin-quick-steps">
+          <li>Choose the theme that fits the photos.</li>
+          <li>Upload one or more images.</li>
+          <li>Add a title and a short description.</li>
+          <li>Click <strong>Create work</strong> to save it.</li>
+        </ol>
+
+        <p className="error-text">
+          Browser uploads are draft-only. To publish photos on the live site, place
+          them in the site folders first.
+        </p>
+      </section>
+
+      <section className="stack-md">
+        <div className="section-head">
+          <div>
+            <h2 className="section-title">Save and sync</h2>
+            <p className="muted-text">
+              Edits made here are saved in this browser first. When you are happy with
+              them, you can export the latest version and replace the site data.
             </p>
           </div>
           <p className="muted-text">
-            {hasDraftChanges ? "Draft differs from repository JSON." : "Draft matches repository JSON."}
+            {hasDraftChanges ? "You have unsynced draft changes." : "This draft matches the current site data."}
           </p>
         </div>
 
         <p className="muted-text">
           {embeddedMediaCount > 0
-            ? `Current draft still contains ${embeddedMediaCount} embedded media item(s). For a lighter repo, move files into public/uploads and replace them with /uploads/... paths below.`
-            : "Current draft is repository-friendly: media is path-based rather than embedded."}
+            ? `This draft still contains ${embeddedMediaCount} browser-uploaded media item(s).`
+            : "This draft is using file-based media cleanly."}
         </p>
 
         <div className="admin-sync-actions">
@@ -361,251 +374,258 @@ export function AdminPage() {
         </div>
 
         <p className="muted-text">
-          Cross-computer workflow: export <code>works.json</code>, replace
-          <code>src/data/works.json</code> with the downloaded file, then run
-          <code>git add .</code>, <code>git commit</code>, and <code>git push</code>.
+          Export gives you the latest draft as a <code>works.json</code> file.
         </p>
 
         <p className="muted-text">
-          Recommended long-term setup: place image files in <code>public/uploads</code>
-          and use paths like <code>/uploads/my-series/frame-01.jpg</code>. Do the same
-          for optional live clips, such as <code>/uploads/my-series/frame-01.mp4</code>.
+          If you prefer a cleaner long-term workflow, you can keep images in the site
+          folders and use file paths instead of browser uploads.
         </p>
 
         {syncMessage ? <p className="muted-text">{syncMessage}</p> : null}
         {error ? <p className="error-text">{error}</p> : null}
       </section>
 
-      <section className="stack-md">
-        <div className="section-head">
-          <div>
-            <h2 className="section-title">
-              {editingId ? "Edit project" : "Add new project"}
-            </h2>
-            <p className="muted-text">
-              For the cleanest Git workflow, prefer path-based media in
-              <code>public/uploads</code>. Browser uploads are still available for quick
-              draft work, but they create heavier embedded JSON until you swap them to
-              file paths.
-            </p>
-          </div>
-          {editingId ? (
-            <button type="button" className="secondary-button" onClick={resetEditor}>
-              Cancel editing
-            </button>
-          ) : null}
-        </div>
+      <details className="admin-advanced" open={editingId ? true : undefined}>
+        <summary className="admin-advanced-summary">
+          {editingId ? "Advanced editor: open" : "Open advanced editor"}
+        </summary>
 
-        <div className="admin-sync-actions">
-          <button type="button" className="secondary-button" onClick={addManualPhoto}>
-            Add path-based photo slot
-          </button>
-        </div>
-
-        <form className="admin-form stack-md" onSubmit={handleSubmit}>
-          <div className="form-grid">
-            <label className="field">
-              <span>Title</span>
-              <input
-                name="title"
-                value={formValues.title}
-                onChange={handleFieldChange}
-                placeholder="Series title"
-              />
-            </label>
-
-            <label className="field">
-              <span>Subtitle</span>
-              <input
-                name="subtitle"
-                value={formValues.subtitle}
-                onChange={handleFieldChange}
-                placeholder="Optional subtitle"
-              />
-            </label>
-
-            <label className="field">
-              <span>Theme</span>
-              <select
-                name="category"
-                value={formValues.category}
-                onChange={handleFieldChange}
-              >
-                {WORK_CATEGORIES.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <label className="field">
-              <span>Date</span>
-              <input
-                type="date"
-                name="date"
-                value={formValues.date}
-                onChange={handleFieldChange}
-              />
-            </label>
-
-            <label className="field">
-              <span>Location</span>
-              <input
-                name="location"
-                value={formValues.location}
-                onChange={handleFieldChange}
-                placeholder="Optional location"
-              />
-            </label>
-
-            <label className="field field-file">
-              <span>Photos</span>
-              <input type="file" accept="image/*" multiple onChange={handlePhotoUpload} />
-              <small>{isUploading ? "Compressing images..." : "Upload multiple images"}</small>
-            </label>
-          </div>
-
-          <label className="field">
-            <span>Description</span>
-            <textarea
-              name="description"
-              value={formValues.description}
-              onChange={handleFieldChange}
-              rows={6}
-              placeholder="Write a short note about the work"
-            />
-          </label>
-
-          <fieldset className="tag-selector">
-            <legend>Color tags</legend>
-            <div className="tag-options">
-              {COLOR_TAGS.map((tag) => (
-                <label key={tag} className="check-tag">
-                  <input
-                    type="checkbox"
-                    checked={formValues.colorTags.includes(tag)}
-                    onChange={() => handleTagToggle(tag)}
-                  />
-                  <span>{tag}</span>
-                </label>
-              ))}
+        <section className="stack-md">
+          <div className="section-head">
+            <div>
+              <h2 className="section-title">
+                {editingId ? "Edit project" : "Add new project"}
+              </h2>
+              <p className="muted-text">
+                Most fields here are optional. If you are in a hurry, title,
+                description, theme, and photos are enough.
+              </p>
             </div>
-          </fieldset>
-
-          <div className="form-grid">
-            <label className="field">
-              <span>Camera</span>
-              <input name="camera" value={formValues.camera} onChange={handleFieldChange} />
-            </label>
-            <label className="field">
-              <span>Lens</span>
-              <input name="lens" value={formValues.lens} onChange={handleFieldChange} />
-            </label>
-            <label className="field">
-              <span>ISO</span>
-              <input name="iso" value={formValues.iso} onChange={handleFieldChange} />
-            </label>
-            <label className="field">
-              <span>Shutter</span>
-              <input name="shutter" value={formValues.shutter} onChange={handleFieldChange} />
-            </label>
-            <label className="field">
-              <span>Aperture</span>
-              <input
-                name="aperture"
-                value={formValues.aperture}
-                onChange={handleFieldChange}
-              />
-            </label>
-            <label className="field">
-              <span>Focal Length</span>
-              <input
-                name="focalLength"
-                value={formValues.focalLength}
-                onChange={handleFieldChange}
-              />
-            </label>
+            {editingId ? (
+              <button type="button" className="secondary-button" onClick={resetEditor}>
+                Cancel editing
+              </button>
+            ) : null}
           </div>
 
-          {photos.length ? (
-            <div className="photo-preview-grid">
-              {photos.map((photo) => (
-                <figure key={photo.id} className="preview-item">
-                  {photo.src ? (
-                    <img src={photo.src} alt={photo.alt || "Photo preview"} />
-                  ) : (
-                    <div className="preview-placeholder">No image source yet</div>
-                  )}
-                  <label className="field">
-                    <span>Image path or source</span>
+          <form className="admin-form stack-md" onSubmit={handleSubmit}>
+            <div className="form-grid">
+              <label className="field">
+                <span>Title</span>
+                <input
+                  name="title"
+                  value={formValues.title}
+                  onChange={handleFieldChange}
+                  placeholder="Series title"
+                />
+              </label>
+
+              <label className="field">
+                <span>Subtitle</span>
+                <input
+                  name="subtitle"
+                  value={formValues.subtitle}
+                  onChange={handleFieldChange}
+                  placeholder="Optional subtitle"
+                />
+              </label>
+
+              <label className="field">
+                <span>Theme</span>
+                <select
+                  name="category"
+                  value={formValues.category}
+                  onChange={handleFieldChange}
+                >
+                  {WORK_CATEGORIES.map((item) => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="field">
+                <span>Date</span>
+                <input
+                  type="date"
+                  name="date"
+                  value={formValues.date}
+                  onChange={handleFieldChange}
+                />
+              </label>
+
+              <label className="field">
+                <span>Location</span>
+                <input
+                  name="location"
+                  value={formValues.location}
+                  onChange={handleFieldChange}
+                  placeholder="Optional location"
+                />
+              </label>
+
+              <label className="field field-file">
+                <span>Photos</span>
+                <input type="file" accept="image/*" multiple onChange={handlePhotoUpload} />
+                <small>
+                  {isUploading ? "Compressing images..." : "Upload multiple images"}
+                </small>
+              </label>
+            </div>
+
+            <label className="field">
+              <span>Description</span>
+              <textarea
+                name="description"
+                value={formValues.description}
+                onChange={handleFieldChange}
+                rows={6}
+                placeholder="Write a short note about the work"
+              />
+            </label>
+
+            <fieldset className="tag-selector">
+              <legend>Color tags</legend>
+              <div className="tag-options">
+                {COLOR_TAGS.map((tag) => (
+                  <label key={tag} className="check-tag">
                     <input
-                      value={photo.src}
-                      onChange={(event) =>
-                        handlePhotoPathChange(photo.id, "src", event.target.value)
-                      }
-                      placeholder="/uploads/series/photo-01.jpg"
+                      type="checkbox"
+                      checked={formValues.colorTags.includes(tag)}
+                      onChange={() => handleTagToggle(tag)}
                     />
+                    <span>{tag}</span>
                   </label>
-                  <label className="field">
-                    <span>Alt text</span>
-                    <input
-                      value={photo.alt}
-                      onChange={(event) => handlePhotoAltChange(photo.id, event.target.value)}
-                      placeholder="Describe the photograph"
-                    />
-                  </label>
-                  <label className="field field-file">
-                    <span>Live clip</span>
-                    <input
-                      type="file"
-                      accept="video/mp4,video/quicktime,video/*"
-                      onChange={(event) =>
-                        handleLiveClipUpload(photo.id, event.target.files?.[0])
-                      }
-                    />
-                    <small>
-                      {photo.livePhotoVideo
-                        ? "Live clip attached"
-                        : "Optional short video for long-press preview"}
-                    </small>
-                  </label>
-                  <label className="field">
-                    <span>Live clip path</span>
-                    <input
-                      value={photo.livePhotoVideo ?? ""}
-                      onChange={(event) =>
-                        handlePhotoPathChange(photo.id, "livePhotoVideo", event.target.value)
-                      }
-                      placeholder="/uploads/series/photo-01.mp4"
-                    />
-                  </label>
-                  {photo.livePhotoVideo ? (
+                ))}
+              </div>
+            </fieldset>
+
+            <div className="form-grid">
+              <label className="field">
+                <span>Camera</span>
+                <input name="camera" value={formValues.camera} onChange={handleFieldChange} />
+              </label>
+              <label className="field">
+                <span>Lens</span>
+                <input name="lens" value={formValues.lens} onChange={handleFieldChange} />
+              </label>
+              <label className="field">
+                <span>ISO</span>
+                <input name="iso" value={formValues.iso} onChange={handleFieldChange} />
+              </label>
+              <label className="field">
+                <span>Shutter</span>
+                <input
+                  name="shutter"
+                  value={formValues.shutter}
+                  onChange={handleFieldChange}
+                />
+              </label>
+              <label className="field">
+                <span>Aperture</span>
+                <input
+                  name="aperture"
+                  value={formValues.aperture}
+                  onChange={handleFieldChange}
+                />
+              </label>
+              <label className="field">
+                <span>Focal Length</span>
+                <input
+                  name="focalLength"
+                  value={formValues.focalLength}
+                  onChange={handleFieldChange}
+                />
+              </label>
+            </div>
+
+            {photos.length ? (
+              <div className="photo-preview-grid">
+                {photos.map((photo) => (
+                  <figure key={photo.id} className="preview-item">
+                    {photo.src ? (
+                      <img src={photo.src} alt={photo.alt || "Photo preview"} />
+                    ) : (
+                      <div className="preview-placeholder">No image source yet</div>
+                    )}
+                    <label className="field">
+                      <span>Image source</span>
+                      <input
+                        value={photo.src}
+                        onChange={(event) =>
+                          handlePhotoPathChange(photo.id, "src", event.target.value)
+                        }
+                        placeholder="/uploads/series/photo-01.jpg"
+                      />
+                    </label>
+                    <label className="field">
+                      <span>Alt text</span>
+                      <input
+                        value={photo.alt}
+                        onChange={(event) => handlePhotoAltChange(photo.id, event.target.value)}
+                        placeholder="Describe the photograph"
+                      />
+                    </label>
+                    <label className="field field-file">
+                      <span>Live clip</span>
+                      <input
+                        type="file"
+                        accept="video/mp4,video/quicktime,video/*"
+                        onChange={(event) =>
+                          handleLiveClipUpload(photo.id, event.target.files?.[0])
+                        }
+                      />
+                      <small>
+                        {photo.livePhotoVideo
+                          ? "Live clip attached"
+                          : "Optional short video for long-press preview"}
+                      </small>
+                    </label>
+                    <label className="field">
+                      <span>Live clip path</span>
+                      <input
+                        value={photo.livePhotoVideo ?? ""}
+                        onChange={(event) =>
+                          handlePhotoPathChange(photo.id, "livePhotoVideo", event.target.value)
+                        }
+                        placeholder="/uploads/series/photo-01.mp4"
+                      />
+                    </label>
+                    {photo.livePhotoVideo ? (
+                      <button
+                        type="button"
+                        className="text-link danger-link"
+                        onClick={() => handleLiveClipRemove(photo.id)}
+                      >
+                        Remove live clip
+                      </button>
+                    ) : null}
                     <button
                       type="button"
                       className="text-link danger-link"
-                      onClick={() => handleLiveClipRemove(photo.id)}
+                      onClick={() => handlePhotoRemove(photo.id)}
                     >
-                      Remove live clip
+                      Remove
                     </button>
-                  ) : null}
-                  <button
-                    type="button"
-                    className="text-link danger-link"
-                    onClick={() => handlePhotoRemove(photo.id)}
-                  >
-                    Remove
-                  </button>
-                </figure>
-              ))}
-            </div>
-          ) : null}
+                  </figure>
+                ))}
+              </div>
+            ) : null}
 
-          <button type="submit" className="primary-button">
-            {editingId ? "Save changes" : "Create work"}
-          </button>
-        </form>
-      </section>
+            <p className="muted-text">
+              {editingId
+                ? "Save changes updates this draft."
+                : "Create work saves this new draft."}
+            </p>
+
+            <button type="submit" className="primary-button">
+              {editingId ? "Save changes" : "Create work"}
+            </button>
+          </form>
+        </section>
+      </details>
 
       <section className="stack-md">
         <h2 className="section-title">Existing works</h2>

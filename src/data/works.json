@@ -6,43 +6,61 @@
     "subtitle": "",
     "description": "",
     "category": "ChiangMai",
-    "colorTags": [],
+    "colorTags": [
+      "warm",
+      "soft",
+      "blue"
+    ],
     "featured": false,
     "photos": [
       {
         "id": "chiangmai-1",
-        "src": "/uploads/ChiangMai/ChiangMai-001.jpg",
-        "alt": "ChiangMai 001",
-        "orientation": "portrait",
-        "colorTags": []
-      },
-      {
-        "id": "chiangmai-2",
         "src": "/uploads/ChiangMai/ChiangMai-002.jpg",
         "alt": "ChiangMai 002",
         "orientation": "landscape",
-        "colorTags": []
+        "colorTags": [
+          "warm",
+          "soft"
+        ]
       },
       {
-        "id": "chiangmai-3",
-        "src": "/uploads/ChiangMai/ChiangMai-003.jpg",
-        "alt": "ChiangMai 003",
-        "orientation": "portrait",
-        "colorTags": []
-      },
-      {
-        "id": "chiangmai-4",
+        "id": "chiangmai-2",
         "src": "/uploads/ChiangMai/ChiangMai-004.JPG",
         "alt": "ChiangMai 004",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "blue",
+          "warm",
+          "soft"
+        ]
+      },
+      {
+        "id": "chiangmai-3",
+        "src": "/uploads/ChiangMai/ChiangMai-005.jpg",
+        "alt": "ChiangMai 005",
+        "orientation": "portrait",
+        "colorTags": [
+          "blue",
+          "soft"
+        ]
+      },
+      {
+        "id": "chiangmai-4",
+        "src": "/uploads/ChiangMai/ChiangMai-006.JPG",
+        "alt": "ChiangMai 006",
+        "orientation": "landscape",
+        "colorTags": [
+          "warm"
+        ]
       },
       {
         "id": "chiangmai-5",
-        "src": "/uploads/ChiangMai/ChiangMai-005.JPG",
-        "alt": "ChiangMai 005",
-        "orientation": "landscape",
-        "colorTags": []
+        "src": "/uploads/ChiangMai/ChiangMai-007.JPG",
+        "alt": "ChiangMai 007",
+        "orientation": "portrait",
+        "colorTags": [
+          "warm"
+        ]
       }
     ]
   },
@@ -53,7 +71,13 @@
     "subtitle": "",
     "description": "",
     "category": "City",
-    "colorTags": [],
+    "colorTags": [
+      "blue",
+      "soft",
+      "warm",
+      "green",
+      "black and white"
+    ],
     "featured": true,
     "photos": [
       {
@@ -66,35 +90,62 @@
         "src": "/uploads/City/City-001.JPG",
         "alt": "City 001",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "blue",
+          "soft"
+        ]
       },
       {
         "id": "city-2",
-        "src": "/uploads/City/City-002.jpg",
+        "src": "/uploads/City/City-002.JPG",
         "alt": "City 002",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "warm",
+          "soft"
+        ]
       },
       {
         "id": "city-3",
-        "src": "/uploads/City/City-003.JPG",
+        "src": "/uploads/City/City-003.jpg",
         "alt": "City 003",
         "orientation": "landscape",
-        "colorTags": []
+        "colorTags": [
+          "warm",
+          "soft"
+        ]
       },
       {
         "id": "city-4",
         "src": "/uploads/City/City-004.JPG",
         "alt": "City 004",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "green",
+          "warm",
+          "soft"
+        ]
       },
       {
         "id": "city-5",
-        "src": "/uploads/City/City-005.jpg",
-        "alt": "City 005",
+        "src": "/uploads/City/City-006.JPG",
+        "alt": "City 006",
         "orientation": "landscape",
-        "colorTags": []
+        "colorTags": [
+          "warm",
+          "black and white",
+          "soft"
+        ]
+      },
+      {
+        "id": "city-6",
+        "src": "/uploads/City/City-007.jpg",
+        "alt": "City 007",
+        "orientation": "landscape",
+        "colorTags": [
+          "warm",
+          "soft"
+        ]
       }
     ],
     "featuredRank": 2
@@ -106,7 +157,11 @@
     "subtitle": "",
     "description": "",
     "category": "Danang",
-    "colorTags": [],
+    "colorTags": [
+      "soft",
+      "black and white",
+      "blue"
+    ],
     "featured": false,
     "photos": [
       {
@@ -114,28 +169,39 @@
         "src": "/uploads/Danang/Danang-001.JPG",
         "alt": "Danang 001",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "soft"
+        ]
       },
       {
         "id": "danang-2",
         "src": "/uploads/Danang/Danang-002.jpg",
         "alt": "Danang 002",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "black and white",
+          "soft"
+        ]
       },
       {
         "id": "danang-3",
         "src": "/uploads/Danang/Danang-003.JPG",
         "alt": "Danang 003",
         "orientation": "landscape",
-        "colorTags": []
+        "colorTags": [
+          "blue",
+          "soft"
+        ]
       },
       {
         "id": "danang-4",
         "src": "/uploads/Danang/Danang-004.jpg",
         "alt": "Danang 004",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "blue",
+          "soft"
+        ]
       }
     ]
   },
@@ -146,7 +212,12 @@
     "subtitle": "",
     "description": "",
     "category": "Everyday",
-    "colorTags": [],
+    "colorTags": [
+      "green",
+      "blue",
+      "warm",
+      "soft"
+    ],
     "featured": true,
     "photos": [
       {
@@ -159,49 +230,74 @@
         "src": "/uploads/Everyday/Everyday-001.JPG",
         "alt": "Everyday 001",
         "orientation": "landscape",
-        "colorTags": []
+        "colorTags": [
+          "green",
+          "blue",
+          "warm",
+          "soft"
+        ]
       },
       {
         "id": "everyday-2",
         "src": "/uploads/Everyday/Everyday-002.JPG",
         "alt": "Everyday 002",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "green",
+          "soft"
+        ]
       },
       {
         "id": "everyday-3",
         "src": "/uploads/Everyday/Everyday-003.JPG",
         "alt": "Everyday 003",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "blue",
+          "warm",
+          "soft"
+        ]
       },
       {
         "id": "everyday-4",
         "src": "/uploads/Everyday/Everyday-004.jpg",
         "alt": "Everyday 004",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "blue"
+        ]
       },
       {
         "id": "everyday-5",
         "src": "/uploads/Everyday/Everyday-005.jpg",
         "alt": "Everyday 005",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "green",
+          "warm",
+          "soft"
+        ]
       },
       {
         "id": "everyday-6",
         "src": "/uploads/Everyday/Everyday-006.jpg",
         "alt": "Everyday 006",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "warm",
+          "soft"
+        ]
       },
       {
         "id": "everyday-7",
-        "src": "/uploads/Everyday/Everyday-007.JPG",
+        "src": "/uploads/Everyday/Everyday-007.jpg",
         "alt": "Everyday 007",
         "orientation": "landscape",
-        "colorTags": []
+        "colorTags": [
+          "green",
+          "warm",
+          "soft"
+        ]
       }
     ],
     "featuredRank": 1
@@ -213,7 +309,11 @@
     "subtitle": "",
     "description": "",
     "category": "Hiroshima",
-    "colorTags": [],
+    "colorTags": [
+      "blue",
+      "warm",
+      "soft"
+    ],
     "featured": false,
     "photos": [
       {
@@ -221,7 +321,11 @@
         "src": "/uploads/Hiroshima/Hiroshima-001.jpg",
         "alt": "Hiroshima 001",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "blue",
+          "warm",
+          "soft"
+        ]
       }
     ]
   },
@@ -232,7 +336,10 @@
     "subtitle": "",
     "description": "",
     "category": "Jeju",
-    "colorTags": [],
+    "colorTags": [
+      "black and white",
+      "soft"
+    ],
     "featured": false,
     "photos": [
       {
@@ -240,14 +347,20 @@
         "src": "/uploads/Jeju/Jeju-001.jpg",
         "alt": "Jeju 001",
         "orientation": "landscape",
-        "colorTags": []
+        "colorTags": [
+          "black and white",
+          "soft"
+        ]
       },
       {
         "id": "jeju-2",
         "src": "/uploads/Jeju/Jeju-002.jpg",
         "alt": "Jeju 002",
         "orientation": "landscape",
-        "colorTags": []
+        "colorTags": [
+          "black and white",
+          "soft"
+        ]
       }
     ]
   },
@@ -258,22 +371,32 @@
     "subtitle": "",
     "description": "",
     "category": "Kamakura",
-    "colorTags": [],
+    "colorTags": [
+      "blue",
+      "soft",
+      "black and white"
+    ],
     "featured": false,
     "photos": [
       {
         "id": "kamakura-1",
-        "src": "/uploads/Kamakura/Kamakura-001.jpg",
+        "src": "/uploads/Kamakura/Kamakura-001.JPG",
         "alt": "Kamakura 001",
         "orientation": "landscape",
-        "colorTags": []
+        "colorTags": [
+          "blue",
+          "soft"
+        ]
       },
       {
         "id": "kamakura-2",
         "src": "/uploads/Kamakura/Kamakura-002.jpg",
         "alt": "Kamakura 002",
         "orientation": "landscape",
-        "colorTags": []
+        "colorTags": [
+          "black and white",
+          "soft"
+        ]
       }
     ]
   },
@@ -284,7 +407,13 @@
     "subtitle": "",
     "description": "",
     "category": "Nature",
-    "colorTags": [],
+    "colorTags": [
+      "blue",
+      "soft",
+      "warm",
+      "black and white",
+      "green"
+    ],
     "featured": true,
     "photos": [
       {
@@ -296,50 +425,80 @@
         "id": "nature-1",
         "src": "/uploads/Nature/Nature-001.JPG",
         "alt": "Nature 001",
-        "orientation": "portrait",
-        "colorTags": []
+        "orientation": "landscape",
+        "colorTags": [
+          "blue",
+          "soft"
+        ]
       },
       {
         "id": "nature-2",
-        "src": "/uploads/Nature/Nature-002.JPG",
+        "src": "/uploads/Nature/Nature-002.jpg",
         "alt": "Nature 002",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "blue",
+          "warm"
+        ]
       },
       {
         "id": "nature-3",
         "src": "/uploads/Nature/Nature-003.JPG",
         "alt": "Nature 003",
-        "orientation": "landscape",
-        "colorTags": []
+        "orientation": "portrait",
+        "colorTags": [
+          "blue",
+          "warm"
+        ]
       },
       {
         "id": "nature-4",
         "src": "/uploads/Nature/Nature-004.jpg",
         "alt": "Nature 004",
-        "orientation": "portrait",
-        "colorTags": []
+        "orientation": "landscape",
+        "colorTags": [
+          "blue"
+        ]
       },
       {
         "id": "nature-5",
         "src": "/uploads/Nature/Nature-005.JPG",
         "alt": "Nature 005",
-        "orientation": "landscape",
-        "colorTags": []
+        "orientation": "portrait",
+        "colorTags": [
+          "warm",
+          "black and white",
+          "soft"
+        ]
       },
       {
         "id": "nature-6",
         "src": "/uploads/Nature/Nature-006.jpg",
         "alt": "Nature 006",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "green",
+          "soft"
+        ]
       },
       {
         "id": "nature-7",
         "src": "/uploads/Nature/Nature-007.jpg",
         "alt": "Nature 007",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "green",
+          "warm"
+        ]
+      },
+      {
+        "id": "nature-8",
+        "src": "/uploads/Nature/Nature-008.JPG",
+        "alt": "Nature 008",
+        "orientation": "portrait",
+        "colorTags": [
+          "green"
+        ]
       }
     ],
     "featuredRank": 3
@@ -351,22 +510,43 @@
     "subtitle": "",
     "description": "",
     "category": "Seoul",
-    "colorTags": [],
+    "colorTags": [
+      "blue",
+      "soft",
+      "warm",
+      "green"
+    ],
     "featured": false,
     "photos": [
       {
         "id": "seoul-1",
         "src": "/uploads/Seoul/Seoul-001.jpg",
         "alt": "Seoul 001",
-        "orientation": "portrait",
-        "colorTags": []
+        "orientation": "landscape",
+        "colorTags": [
+          "blue",
+          "soft"
+        ]
       },
       {
         "id": "seoul-2",
         "src": "/uploads/Seoul/Seoul-002.jpg",
         "alt": "Seoul 002",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "warm"
+        ]
+      },
+      {
+        "id": "seoul-3",
+        "src": "/uploads/Seoul/Seoul-003.jpg",
+        "alt": "Seoul 003",
+        "orientation": "portrait",
+        "colorTags": [
+          "green",
+          "warm",
+          "soft"
+        ]
       }
     ]
   },
@@ -377,7 +557,12 @@
     "subtitle": "",
     "description": "",
     "category": "Travel",
-    "colorTags": [],
+    "colorTags": [
+      "black and white",
+      "soft",
+      "blue",
+      "warm"
+    ],
     "featured": false,
     "photos": [
       {
@@ -385,49 +570,73 @@
         "src": "/uploads/Travel/Travel-001.JPG",
         "alt": "Travel 001",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "black and white",
+          "soft"
+        ]
       },
       {
         "id": "travel-2",
         "src": "/uploads/Travel/Travel-002.JPG",
         "alt": "Travel 002",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "blue",
+          "warm",
+          "soft"
+        ]
       },
       {
         "id": "travel-3",
         "src": "/uploads/Travel/Travel-003.JPG",
         "alt": "Travel 003",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "warm",
+          "soft"
+        ]
       },
       {
         "id": "travel-4",
         "src": "/uploads/Travel/Travel-004.JPG",
         "alt": "Travel 004",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "black and white",
+          "soft"
+        ]
       },
       {
         "id": "travel-5",
         "src": "/uploads/Travel/Travel-005.JPG",
         "alt": "Travel 005",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "blue",
+          "warm",
+          "soft"
+        ]
       },
       {
         "id": "travel-6",
         "src": "/uploads/Travel/Travel-006.JPG",
         "alt": "Travel 006",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "blue",
+          "warm",
+          "soft"
+        ]
       },
       {
         "id": "travel-7",
         "src": "/uploads/Travel/Travel-007.JPG",
         "alt": "Travel 007",
         "orientation": "portrait",
-        "colorTags": []
+        "colorTags": [
+          "blue",
+          "soft"
+        ]
       }
     ]
   }

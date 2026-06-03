@@ -132,14 +132,22 @@ const ensureHeicDerivatives = async (dir) => {
     let shouldConvert = true;
 
     try {
-      const [inputStats, outputStats] = await Promise.all([stat(inputPath), stat(outputPath)]);
-      shouldConvert = inputStats.mtimeMs > outputStats.mtimeMs;
+      await stat(outputPath);
+      shouldConvert = false;
     } catch {
       shouldConvert = true;
     }
 
     if (shouldConvert) {
-      await convertHeicToJpeg(inputPath, outputPath);
+      try {
+        await convertHeicToJpeg(inputPath, outputPath);
+      } catch (error) {
+        console.warn(
+          error instanceof Error
+            ? error.message
+            : `Failed to convert ${path.basename(inputPath)} to JPEG`
+        );
+      }
     }
   }
 };
@@ -187,15 +195,6 @@ const normalizeCategoryFiles = async (categoryName) => {
       .map((entry) => path.basename(entry.name, path.extname(entry.name)))
   );
 
-  const derivedJpegEntries = entries.filter((entry) => {
-    const extension = path.extname(entry.name).toLowerCase();
-    const baseName = path.basename(entry.name, extension);
-    return entry.isFile() && extension === ".jpg" && heicBaseNames.has(baseName);
-  });
-
-  await Promise.all(derivedJpegEntries.map((entry) => unlink(path.join(categoryDir, entry.name))));
-
-  entries = await listVisibleEntries(categoryDir);
   const sourceEntries = entries.filter((entry) => {
     const extension = path.extname(entry.name).toLowerCase();
     const baseName = path.basename(entry.name, extension).toLowerCase();
@@ -233,15 +232,25 @@ const normalizeCategoryFiles = async (categoryName) => {
     (entry) => entry.isFile() && isHeicExtension(path.extname(entry.name).toLowerCase())
   );
 
-  await Promise.all(
-    normalizedHeicEntries.map((entry) => {
-      const baseName = path.basename(entry.name, path.extname(entry.name));
-      return convertHeicToJpeg(
-        path.join(categoryDir, entry.name),
-        path.join(categoryDir, `${baseName}.jpg`)
-      );
-    })
-  );
+  await Promise.all(normalizedHeicEntries.map(async (entry) => {
+    const baseName = path.basename(entry.name, path.extname(entry.name));
+    const jpgPath = path.join(categoryDir, `${baseName}.jpg`);
+
+    try {
+      await stat(jpgPath);
+      return;
+    } catch {
+      try {
+        await convertHeicToJpeg(path.join(categoryDir, entry.name), jpgPath);
+      } catch (error) {
+        console.warn(
+          error instanceof Error
+            ? error.message
+            : `Failed to convert ${entry.name} to JPEG`
+        );
+      }
+    }
+  }));
 };
 
 const getSeriesPhotos = async (categoryName, seriesFolder = "", orientationOverrides = {}) => {
