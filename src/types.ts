@@ -1,6 +1,13 @@
 export const WORK_CATEGORIES = [
   "Nature",
   "City",
+  "Seoul",
+  "Jeju",
+  "Kamakura",
+  "Danang",
+  "ChiangMai",
+  "Tokyo",
+  "Hiroshima",
   "Portrait",
   "Travel",
   "Everyday"

@@ -7,7 +7,20 @@ const uploadsDir = path.join(rootDir, "public", "uploads");
 const coversDir = path.join(uploadsDir, "_covers");
 const outputFile = path.join(rootDir, "src", "data", "works.json");
 
-const categories = new Set(["Nature", "City", "Portrait", "Travel", "Everyday"]);
+const categories = new Set([
+  "Nature",
+  "City",
+  "Seoul",
+  "Jeju",
+  "Kamakura",
+  "Danang",
+  "ChiangMai",
+  "Tokyo",
+  "Hiroshima",
+  "Portrait",
+  "Travel",
+  "Everyday"
+]);
 const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif", ".heic"]);
 const videoExtensions = new Set([".mp4", ".mov", ".webm"]);
 const coverBaseNames = new Set(["cover", "featured", "thumbnail", "thumb"]);
