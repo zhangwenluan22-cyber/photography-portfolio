@@ -203,6 +203,10 @@ button {
   gap: 22px;
 }
 
+.work-grid-landscape {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .work-card,
 .detail-image-frame,
 .preview-item {
@@ -274,6 +278,16 @@ button {
   aspect-ratio: 3 / 4;
   object-fit: cover;
   transition: transform 220ms ease, opacity 220ms ease;
+}
+
+.work-thumb-portrait {
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+.work-thumb-landscape {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
 }
 
 .work-card-link:hover .work-thumb {
@@ -431,8 +445,13 @@ button {
 }
 
 .detail-image {
-  max-height: 88vh;
-  object-fit: cover;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.live-photo-video.detail-image {
+  object-fit: contain;
 }
 
 .journal-list {
@@ -579,6 +598,7 @@ code {
   }
 
   .work-grid,
+  .work-grid-landscape,
   .photo-preview-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -650,6 +670,7 @@ code {
 
 @media (max-width: 640px) {
   .work-grid,
+  .work-grid-landscape,
   .photo-preview-grid {
     grid-template-columns: 1fr;
   }

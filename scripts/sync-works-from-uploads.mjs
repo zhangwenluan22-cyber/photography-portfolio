@@ -1,4 +1,4 @@
-import { readdir, rename, writeFile } from "node:fs/promises";
+import { readdir, rename, stat, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -6,6 +6,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const uploadsDir = path.join(rootDir, "public", "uploads");
 const coversDir = path.join(uploadsDir, "_covers");
 const outputFile = path.join(rootDir, "src", "data", "works.json");
+const ffmpegPath = "/opt/homebrew/bin/ffmpeg";
 
 const categories = new Set([
   "Nature",
@@ -21,7 +22,8 @@ const categories = new Set([
   "Travel",
   "Everyday"
 ]);
-const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif"]);
+const webImageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif"]);
+const sourceImageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif", ".heic"]);
 const videoExtensions = new Set([".mp4", ".mov", ".webm"]);
 const coverBaseNames = new Set(["cover", "featured", "thumbnail", "thumb"]);
 const colorTagKeywords = [
@@ -75,10 +77,56 @@ const parseCoverEntry = (entry) => {
   };
 };
 
+const isHeicExtension = (extension) => extension === ".heic";
+const isWebImageExtension = (extension) => webImageExtensions.has(extension);
+const isSourceImageExtension = (extension) => sourceImageExtensions.has(extension);
+
+const convertHeicToJpeg = async (inputPath, outputPath) => {
+  const { spawnSync } = await import("node:child_process");
+  const result = spawnSync(
+    ffmpegPath,
+    ["-y", "-i", inputPath, "-frames:v", "1", "-update", "1", outputPath],
+    {
+      encoding: "utf8"
+    }
+  );
+
+  if (result.status !== 0) {
+    throw new Error(result.stderr || `Failed to convert ${path.basename(inputPath)} to JPEG`);
+  }
+};
+
+const ensureHeicDerivatives = async (dir) => {
+  const entries = await listVisibleEntries(dir);
+  const heicEntries = entries.filter(
+    (entry) => entry.isFile() && isHeicExtension(path.extname(entry.name).toLowerCase())
+  );
+
+  for (const entry of heicEntries) {
+    const baseName = path.basename(entry.name, path.extname(entry.name));
+    const inputPath = path.join(dir, entry.name);
+    const outputPath = path.join(dir, `${baseName}.jpg`);
+
+    let shouldConvert = true;
+
+    try {
+      const [inputStats, outputStats] = await Promise.all([stat(inputPath), stat(outputPath)]);
+      shouldConvert = inputStats.mtimeMs > outputStats.mtimeMs;
+    } catch {
+      shouldConvert = true;
+    }
+
+    if (shouldConvert) {
+      await convertHeicToJpeg(inputPath, outputPath);
+    }
+  }
+};
+
 const getCoverOrderByCategory = async () => {
+  await ensureHeicDerivatives(coversDir);
   const coverEntries = await listVisibleEntries(coversDir);
   const orderedEntries = coverEntries
-    .filter((entry) => entry.isFile() && imageExtensions.has(path.extname(entry.name).toLowerCase()))
+    .filter((entry) => entry.isFile() && isWebImageExtension(path.extname(entry.name).toLowerCase()))
     .map((entry) => ({ entry, ...parseCoverEntry(entry) }))
     .filter((item) => item.category && item.order !== undefined)
     .sort((a, b) => a.order - b.order);
@@ -99,14 +147,36 @@ const listVisibleEntries = async (dir) => {
 
 const normalizeCategoryFiles = async (categoryName) => {
   const categoryDir = path.join(uploadsDir, categoryName);
-  const entries = await listVisibleEntries(categoryDir);
-  const imageEntries = entries.filter((entry) => {
+  await ensureHeicDerivatives(categoryDir);
+
+  let entries = await listVisibleEntries(categoryDir);
+  const heicBaseNames = new Set(
+    entries
+      .filter((entry) => entry.isFile() && isHeicExtension(path.extname(entry.name).toLowerCase()))
+      .map((entry) => path.basename(entry.name, path.extname(entry.name)))
+  );
+
+  const derivedJpegEntries = entries.filter((entry) => {
     const extension = path.extname(entry.name).toLowerCase();
-    const baseName = path.basename(entry.name, extension).toLowerCase();
-    return entry.isFile() && imageExtensions.has(extension) && !coverBaseNames.has(baseName);
+    const baseName = path.basename(entry.name, extension);
+    return entry.isFile() && extension === ".jpg" && heicBaseNames.has(baseName);
   });
 
-  const plannedNames = imageEntries.map((entry, index) => {
+  await Promise.all(derivedJpegEntries.map((entry) => unlink(path.join(categoryDir, entry.name))));
+
+  entries = await listVisibleEntries(categoryDir);
+  const sourceEntries = entries.filter((entry) => {
+    const extension = path.extname(entry.name).toLowerCase();
+    const baseName = path.basename(entry.name, extension).toLowerCase();
+    return (
+      entry.isFile() &&
+      isSourceImageExtension(extension) &&
+      !coverBaseNames.has(baseName) &&
+      (isHeicExtension(extension) || !heicBaseNames.has(path.basename(entry.name, extension)))
+    );
+  });
+
+  const plannedNames = sourceEntries.map((entry, index) => {
     const extension = path.extname(entry.name);
     return {
       from: entry.name,
@@ -126,10 +196,26 @@ const normalizeCategoryFiles = async (categoryName) => {
   for (const { from, to } of plannedNames) {
     await rename(path.join(categoryDir, `.__tmp__${from}`), path.join(categoryDir, to));
   }
+
+  const normalizedEntries = await listVisibleEntries(categoryDir);
+  const normalizedHeicEntries = normalizedEntries.filter(
+    (entry) => entry.isFile() && isHeicExtension(path.extname(entry.name).toLowerCase())
+  );
+
+  await Promise.all(
+    normalizedHeicEntries.map((entry) => {
+      const baseName = path.basename(entry.name, path.extname(entry.name));
+      return convertHeicToJpeg(
+        path.join(categoryDir, entry.name),
+        path.join(categoryDir, `${baseName}.jpg`)
+      );
+    })
+  );
 };
 
 const getSeriesPhotos = async (categoryName, seriesFolder = "") => {
   const seriesDir = path.join(uploadsDir, categoryName, seriesFolder);
+  await ensureHeicDerivatives(seriesDir);
   const entries = await listVisibleEntries(seriesDir);
   const media = entries.filter((entry) => entry.isFile());
   const videosByBaseName = new Map();
@@ -142,7 +228,7 @@ const getSeriesPhotos = async (categoryName, seriesFolder = "") => {
   }
 
   return media
-    .filter((entry) => imageExtensions.has(path.extname(entry.name).toLowerCase()))
+    .filter((entry) => isWebImageExtension(path.extname(entry.name).toLowerCase()))
     .filter((entry) => !coverBaseNames.has(path.basename(entry.name, path.extname(entry.name)).toLowerCase()))
     .map((entry, index) => {
       const extension = path.extname(entry.name);
@@ -254,13 +340,14 @@ print(json.dumps({path: tags_for(path) for path in sys.argv[1:]}))
 
 const getCoverPhoto = async (categoryName, seriesFolder = "") => {
   if (!seriesFolder) {
+    await ensureHeicDerivatives(coversDir);
     const coverEntries = await listVisibleEntries(coversDir);
     const categoryCover = coverEntries.find((entry) => {
       const extension = path.extname(entry.name);
       const parsedCover = parseCoverEntry(entry);
       return (
         entry.isFile() &&
-        imageExtensions.has(extension.toLowerCase()) &&
+        isWebImageExtension(extension.toLowerCase()) &&
         parsedCover.category === categoryName
       );
     });
@@ -278,11 +365,12 @@ const getCoverPhoto = async (categoryName, seriesFolder = "") => {
   }
 
   const seriesDir = path.join(uploadsDir, categoryName, seriesFolder);
+  await ensureHeicDerivatives(seriesDir);
   const entries = await listVisibleEntries(seriesDir);
   const coverEntry = entries.find((entry) => {
     const extension = path.extname(entry.name);
     const baseName = path.basename(entry.name, extension).toLowerCase();
-    return entry.isFile() && imageExtensions.has(extension.toLowerCase()) && coverBaseNames.has(baseName);
+    return entry.isFile() && isWebImageExtension(extension.toLowerCase()) && coverBaseNames.has(baseName);
   });
 
   if (!coverEntry) {

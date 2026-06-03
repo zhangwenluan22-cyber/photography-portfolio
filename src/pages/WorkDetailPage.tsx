@@ -1,4 +1,5 @@
-import { Link, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { usePortfolio } from "../lib/portfolio-context";
 import { formatDisplayDate } from "../lib/utils";
 import { LivePhoto } from "../components/LivePhoto";
@@ -14,8 +15,28 @@ const cameraLabels: Array<[key: string, string]> = [
 
 export function WorkDetailPage() {
   const { slug } = useParams();
+  const location = useLocation();
   const { works } = usePortfolio();
   const work = works.find((item) => item.slug === slug);
+  const selectedPhotoId = location.hash ? location.hash.slice(1) : null;
+  const selectedPhoto = selectedPhotoId
+    ? work?.photos.find((photo) => photo.id === selectedPhotoId)
+    : null;
+  const visiblePhotos = selectedPhoto ? [selectedPhoto] : work?.photos ?? [];
+
+  useEffect(() => {
+    if (!location.hash) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    const photoId = location.hash.slice(1);
+    const element = document.getElementById(photoId);
+
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [location.hash, work?.id]);
 
   if (!work) {
     return (
@@ -92,8 +113,8 @@ export function WorkDetailPage() {
       </section>
 
       <section className="detail-image-stack">
-        {work.photos.map((photo) => (
-          <figure key={photo.id} className="detail-image-frame">
+        {visiblePhotos.map((photo) => (
+          <figure key={photo.id} id={photo.id} className="detail-image-frame">
             <LivePhoto
               imageSrc={photo.src}
               imageAlt={photo.alt}
@@ -103,6 +124,14 @@ export function WorkDetailPage() {
           </figure>
         ))}
       </section>
+
+      {selectedPhoto ? (
+        <div className="detail-actions">
+          <Link to={`/works/${work.slug}`} className="text-link">
+            View full series
+          </Link>
+        </div>
+      ) : null}
     </article>
   );
 }

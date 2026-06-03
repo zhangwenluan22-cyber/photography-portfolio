@@ -92,7 +92,7 @@ export function WorksPage() {
 
       <p className="filter-summary">{resultLabel}</p>
 
-      <WorkPhotoGrid items={visiblePhotos} />
+      <WorkPhotoGrid items={visiblePhotos} mixedThemes={category === "All"} />
     </div>
   );
 }

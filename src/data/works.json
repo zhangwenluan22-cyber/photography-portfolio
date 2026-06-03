@@ -23,7 +23,7 @@
       },
       {
         "id": "chiangmai-3",
-        "src": "/uploads/ChiangMai/ChiangMai-003.JPG",
+        "src": "/uploads/ChiangMai/ChiangMai-003.jpg",
         "alt": "ChiangMai 003",
         "colorTags": []
       },
@@ -58,19 +58,19 @@
       },
       {
         "id": "city-1",
-        "src": "/uploads/City/City-001.jpg",
+        "src": "/uploads/City/City-001.JPG",
         "alt": "City 001",
         "colorTags": []
       },
       {
         "id": "city-2",
-        "src": "/uploads/City/City-002.JPG",
+        "src": "/uploads/City/City-002.jpg",
         "alt": "City 002",
         "colorTags": []
       },
       {
         "id": "city-3",
-        "src": "/uploads/City/City-003.jpg",
+        "src": "/uploads/City/City-003.JPG",
         "alt": "City 003",
         "colorTags": []
       },
@@ -82,7 +82,7 @@
       },
       {
         "id": "city-5",
-        "src": "/uploads/City/City-005.JPG",
+        "src": "/uploads/City/City-005.jpg",
         "alt": "City 005",
         "colorTags": []
       }
@@ -178,26 +178,8 @@
       },
       {
         "id": "everyday-7",
-        "src": "/uploads/Everyday/Everyday-007.jpg",
+        "src": "/uploads/Everyday/Everyday-007.JPG",
         "alt": "Everyday 007",
-        "colorTags": []
-      },
-      {
-        "id": "everyday-8",
-        "src": "/uploads/Everyday/Everyday-008.JPG",
-        "alt": "Everyday 008",
-        "colorTags": []
-      },
-      {
-        "id": "everyday-9",
-        "src": "/uploads/Everyday/Everyday-009.JPG",
-        "alt": "Everyday 009",
-        "colorTags": []
-      },
-      {
-        "id": "everyday-10",
-        "src": "/uploads/Everyday/Everyday-010.JPG",
-        "alt": "Everyday 010",
         "colorTags": []
       }
     ],
