@@ -11,7 +11,7 @@
     "photos": [
       {
         "id": "chiangmai-1",
-        "src": "/uploads/ChiangMai/ChiangMai-001.HEIC",
+        "src": "/uploads/ChiangMai/ChiangMai-001.jpg",
         "alt": "ChiangMai 001",
         "colorTags": []
       },
@@ -23,13 +23,13 @@
       },
       {
         "id": "chiangmai-3",
-        "src": "/uploads/ChiangMai/ChiangMai-003.HEIC",
+        "src": "/uploads/ChiangMai/ChiangMai-003.JPG",
         "alt": "ChiangMai 003",
         "colorTags": []
       },
       {
         "id": "chiangmai-4",
-        "src": "/uploads/ChiangMai/ChiangMai-004.jpg",
+        "src": "/uploads/ChiangMai/ChiangMai-004.JPG",
         "alt": "ChiangMai 004",
         "colorTags": []
       },
@@ -37,18 +37,6 @@
         "id": "chiangmai-5",
         "src": "/uploads/ChiangMai/ChiangMai-005.JPG",
         "alt": "ChiangMai 005",
-        "colorTags": []
-      },
-      {
-        "id": "chiangmai-6",
-        "src": "/uploads/ChiangMai/ChiangMai-006.JPG",
-        "alt": "ChiangMai 006",
-        "colorTags": []
-      },
-      {
-        "id": "chiangmai-7",
-        "src": "/uploads/ChiangMai/ChiangMai-007.JPG",
-        "alt": "ChiangMai 007",
         "colorTags": []
       }
     ]
@@ -96,12 +84,6 @@
         "id": "city-5",
         "src": "/uploads/City/City-005.JPG",
         "alt": "City 005",
-        "colorTags": []
-      },
-      {
-        "id": "city-6",
-        "src": "/uploads/City/City-006.HEIC",
-        "alt": "City 006",
         "colorTags": []
       }
     ],

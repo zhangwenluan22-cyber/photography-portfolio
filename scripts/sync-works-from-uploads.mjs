@@ -21,7 +21,7 @@ const categories = new Set([
   "Travel",
   "Everyday"
 ]);
-const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif", ".heic"]);
+const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif"]);
 const videoExtensions = new Set([".mp4", ".mov", ".webm"]);
 const coverBaseNames = new Set(["cover", "featured", "thumbnail", "thumb"]);
 const colorTagKeywords = [
