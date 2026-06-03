@@ -6,10 +6,7 @@
     "subtitle": "",
     "description": "",
     "category": "City",
-    "colorTags": [
-      "warm",
-      "soft"
-    ],
+    "colorTags": [],
     "featured": true,
     "photos": [
       {
@@ -21,10 +18,7 @@
         "id": "city-1",
         "src": "/uploads/City/City-001.JPG",
         "alt": "City 001",
-        "colorTags": [
-          "warm",
-          "soft"
-        ]
+        "colorTags": []
       }
     ],
     "featuredRank": 2
@@ -36,12 +30,7 @@
     "subtitle": "",
     "description": "",
     "category": "Everyday",
-    "colorTags": [
-      "green",
-      "blue",
-      "warm",
-      "soft"
-    ],
+    "colorTags": [],
     "featured": true,
     "photos": [
       {
@@ -53,39 +42,25 @@
         "id": "everyday-1",
         "src": "/uploads/Everyday/Everyday-001.JPG",
         "alt": "Everyday 001",
-        "colorTags": [
-          "green",
-          "blue",
-          "warm",
-          "soft"
-        ]
+        "colorTags": []
       },
       {
         "id": "everyday-2",
         "src": "/uploads/Everyday/Everyday-002.JPG",
         "alt": "Everyday 002",
-        "colorTags": [
-          "green",
-          "soft"
-        ]
+        "colorTags": []
       },
       {
         "id": "everyday-3",
         "src": "/uploads/Everyday/Everyday-003.JPG",
         "alt": "Everyday 003",
-        "colorTags": [
-          "blue",
-          "warm",
-          "soft"
-        ]
+        "colorTags": []
       },
       {
         "id": "everyday-4",
         "src": "/uploads/Everyday/Everyday-004.jpg",
         "alt": "Everyday 004",
-        "colorTags": [
-          "blue"
-        ]
+        "colorTags": []
       }
     ],
     "featuredRank": 1
@@ -97,60 +72,46 @@
     "subtitle": "",
     "description": "",
     "category": "Nature",
-    "colorTags": [
-      "warm",
-      "black and white",
-      "soft",
-      "green"
-    ],
-    "featured": false,
+    "colorTags": [],
+    "featured": true,
     "photos": [
+      {
+        "id": "nature-cover",
+        "src": "/uploads/_covers/03-Nature-001.jpg",
+        "alt": "03 Nature 001"
+      },
       {
         "id": "nature-1",
         "src": "/uploads/Nature/Nature-001.jpg",
         "alt": "Nature 001",
-        "colorTags": [
-          "warm",
-          "black and white",
-          "soft"
-        ]
+        "colorTags": []
       },
       {
         "id": "nature-2",
         "src": "/uploads/Nature/Nature-002.JPG",
         "alt": "Nature 002",
-        "colorTags": [
-          "green",
-          "soft"
-        ]
+        "colorTags": []
       },
       {
         "id": "nature-3",
         "src": "/uploads/Nature/Nature-003.jpg",
         "alt": "Nature 003",
-        "colorTags": [
-          "green",
-          "warm"
-        ]
+        "colorTags": []
       },
       {
         "id": "nature-4",
         "src": "/uploads/Nature/Nature-004.JPG",
         "alt": "Nature 004",
-        "colorTags": [
-          "green",
-          "warm"
-        ]
+        "colorTags": []
       },
       {
         "id": "nature-5",
         "src": "/uploads/Nature/Nature-005.jpg",
         "alt": "Nature 005",
-        "colorTags": [
-          "green"
-        ]
+        "colorTags": []
       }
-    ]
+    ],
+    "featuredRank": 3
   },
   {
     "id": "travel",
@@ -159,86 +120,51 @@
     "subtitle": "",
     "description": "",
     "category": "Travel",
-    "colorTags": [
-      "black and white",
-      "soft",
-      "blue",
-      "warm"
-    ],
-    "featured": true,
+    "colorTags": [],
+    "featured": false,
     "photos": [
-      {
-        "id": "travel-cover",
-        "src": "/uploads/_covers/03-Travel-004.JPG",
-        "alt": "03 Travel 004"
-      },
       {
         "id": "travel-1",
         "src": "/uploads/Travel/Travel-001.JPG",
         "alt": "Travel 001",
-        "colorTags": [
-          "black and white",
-          "soft"
-        ]
+        "colorTags": []
       },
       {
         "id": "travel-2",
         "src": "/uploads/Travel/Travel-002.JPG",
         "alt": "Travel 002",
-        "colorTags": [
-          "blue",
-          "warm",
-          "soft"
-        ]
+        "colorTags": []
       },
       {
         "id": "travel-3",
         "src": "/uploads/Travel/Travel-003.JPG",
         "alt": "Travel 003",
-        "colorTags": [
-          "warm",
-          "soft"
-        ]
+        "colorTags": []
       },
       {
         "id": "travel-4",
         "src": "/uploads/Travel/Travel-004.JPG",
         "alt": "Travel 004",
-        "colorTags": [
-          "black and white",
-          "soft"
-        ]
+        "colorTags": []
       },
       {
         "id": "travel-5",
         "src": "/uploads/Travel/Travel-005.JPG",
         "alt": "Travel 005",
-        "colorTags": [
-          "blue",
-          "warm",
-          "soft"
-        ]
+        "colorTags": []
       },
       {
         "id": "travel-6",
         "src": "/uploads/Travel/Travel-006.JPG",
         "alt": "Travel 006",
-        "colorTags": [
-          "blue",
-          "warm",
-          "soft"
-        ]
+        "colorTags": []
       },
       {
         "id": "travel-7",
         "src": "/uploads/Travel/Travel-007.JPG",
         "alt": "Travel 007",
-        "colorTags": [
-          "blue",
-          "soft"
-        ]
+        "colorTags": []
       }
-    ],
-    "featuredRank": 3
+    ]
   }
 ]
