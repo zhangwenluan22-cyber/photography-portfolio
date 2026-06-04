@@ -7,6 +7,7 @@ import { JournalPage } from "./pages/JournalPage";
 import { AboutPage } from "./pages/AboutPage";
 import { ContactPage } from "./pages/ContactPage";
 import { AdminPage } from "./pages/AdminPage";
+import { MobilePage } from "./pages/MobilePage";
 
 function NotFoundPage() {
   return (
@@ -23,6 +24,7 @@ function NotFoundPage() {
 export default function App() {
   return (
     <Routes>
+      <Route path="/mobile" element={<MobilePage />} />
       <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/works" element={<WorksPage />} />

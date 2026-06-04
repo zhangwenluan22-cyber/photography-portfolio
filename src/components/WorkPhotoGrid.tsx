@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import type { Work, WorkPhoto } from "../types";
+import type { ColorTag, Work, WorkPhoto } from "../types";
 import { LivePhoto } from "./LivePhoto";
 
 export interface WorkPhotoItem {
@@ -9,167 +9,59 @@ export interface WorkPhotoItem {
 }
 
 type Orientation = "portrait" | "landscape";
-type ColorGroup = "warm" | "green" | "blue" | "soft" | "night" | "mono";
+type ColorGroup = "soft" | "warm" | "green" | "blue" | "night" | "mono";
 
-interface PhotoMeta {
-  orientation: Orientation;
-  colorGroup: ColorGroup;
-  brightness: number;
-}
-
-const photoMetaCache = new Map<string, PhotoMeta>();
 const colorOrder: ColorGroup[] = ["soft", "warm", "green", "blue", "night", "mono"];
+const landscapePriorityCategories = ["Kamakura", "Jeju"];
+const portraitPriorityCategories = ["Everyday", "Travel"];
 
-function getColorGroup(r: number, g: number, b: number): ColorGroup {
-  const max = Math.max(r, g, b);
-  const min = Math.min(r, g, b);
-  const brightness = max / 255;
-  const saturation = max === 0 ? 0 : (max - min) / max;
+function getColorGroup(photo: WorkPhoto): ColorGroup {
+  const tags = photo.colorTags ?? [];
 
-  if (saturation < 0.12) {
-    return brightness < 0.32 ? "night" : "mono";
-  }
-
-  if (brightness < 0.25) {
-    return "night";
-  }
-
-  if (saturation < 0.22) {
+  if (tags.includes("soft")) {
     return "soft";
   }
 
-  if (r >= g && r >= b) {
+  if (tags.includes("warm")) {
     return "warm";
   }
 
-  if (g >= r && g >= b) {
+  if (tags.includes("green")) {
     return "green";
   }
 
-  return "blue";
+  if (tags.includes("blue")) {
+    return "blue";
+  }
+
+  if (tags.includes("night")) {
+    return "night";
+  }
+
+  if (tags.includes("black and white")) {
+    return "mono";
+  }
+
+  return "soft";
 }
 
-function usePhotoMeta(items: WorkPhotoItem[]) {
-  const [photoMeta, setPhotoMeta] = useState<Record<string, PhotoMeta>>({});
+function getBrightnessWeight(photo: WorkPhoto) {
+  const tags = photo.colorTags ?? [];
+  let weight = 0;
 
-  useEffect(() => {
-    let cancelled = false;
+  if (tags.includes("night")) {
+    weight += 3;
+  }
 
-    const uncachedItems = items.filter(({ photo }) => !photoMetaCache.has(photo.src));
+  if (tags.includes("black and white")) {
+    weight += 2;
+  }
 
-    if (uncachedItems.length === 0) {
-      setPhotoMeta(
-        Object.fromEntries(
-          items.map(({ photo }) => [
-            photo.src,
-            photoMetaCache.get(photo.src) ?? {
-              orientation: "portrait",
-              colorGroup: "soft",
-              brightness: 0.5
-            }
-          ])
-        )
-      );
-      return;
-    }
+  if (tags.includes("soft")) {
+    weight -= 1;
+  }
 
-    Promise.all(
-      uncachedItems.map(
-        ({ photo }) =>
-          new Promise<[string, PhotoMeta]>((resolve) => {
-            const image = new Image();
-            image.onload = () => {
-              const canvas = document.createElement("canvas");
-              const context = canvas.getContext("2d");
-
-              if (!context) {
-                resolve([
-                  photo.src,
-                  {
-                    orientation:
-                      image.naturalWidth > image.naturalHeight ? "landscape" : "portrait",
-                    colorGroup: "soft",
-                    brightness: 0.5
-                  }
-                ]);
-                return;
-              }
-
-              const sampleWidth = 24;
-              const sampleHeight = 24;
-              canvas.width = sampleWidth;
-              canvas.height = sampleHeight;
-              context.drawImage(image, 0, 0, sampleWidth, sampleHeight);
-              const { data } = context.getImageData(0, 0, sampleWidth, sampleHeight);
-
-              let totalR = 0;
-              let totalG = 0;
-              let totalB = 0;
-              let pixels = 0;
-
-              for (let index = 0; index < data.length; index += 4) {
-                totalR += data[index];
-                totalG += data[index + 1];
-                totalB += data[index + 2];
-                pixels += 1;
-              }
-
-              const averageR = totalR / pixels;
-              const averageG = totalG / pixels;
-              const averageB = totalB / pixels;
-              const brightness = (averageR + averageG + averageB) / (255 * 3);
-
-              resolve([
-                photo.src,
-                {
-                  orientation:
-                    image.naturalWidth > image.naturalHeight ? "landscape" : "portrait",
-                  colorGroup: getColorGroup(averageR, averageG, averageB),
-                  brightness
-                }
-              ]);
-            };
-            image.onerror = () =>
-              resolve([
-                photo.src,
-                {
-                  orientation: "portrait",
-                  colorGroup: "soft",
-                  brightness: 0.5
-                }
-              ]);
-            image.src = photo.src;
-          })
-      )
-    ).then((results) => {
-      if (cancelled) {
-        return;
-      }
-
-      for (const [src, meta] of results) {
-        photoMetaCache.set(src, meta);
-      }
-
-      setPhotoMeta(
-        Object.fromEntries(
-          items.map(({ photo }) => [
-            photo.src,
-            photoMetaCache.get(photo.src) ?? {
-              orientation: "portrait",
-              colorGroup: "soft",
-              brightness: 0.5
-            }
-          ])
-        )
-      );
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [items]);
-
-  return photoMeta;
+  return weight;
 }
 
 function PhotoSection({
@@ -232,39 +124,39 @@ export function WorkPhotoGrid({
     return <p className="muted-text">{emptyText}</p>;
   }
 
-  const photoMeta = usePhotoMeta(items);
-
   const { portraitItems, landscapeItems } = useMemo(() => {
     const grouped = items.reduce(
       (groups, item) => {
-        const orientation = item.photo.orientation ?? photoMeta[item.photo.src]?.orientation ?? "portrait";
+        const orientation = item.photo.orientation ?? "portrait";
         groups[orientation === "landscape" ? "landscapeItems" : "portraitItems"].push(item);
         return groups;
       },
       { portraitItems: [] as WorkPhotoItem[], landscapeItems: [] as WorkPhotoItem[] }
     );
 
-    const sortByColor = (a: WorkPhotoItem, b: WorkPhotoItem) => {
-      const metaA = photoMeta[a.photo.src] ?? {
-        orientation: "portrait" as const,
-        colorGroup: "soft" as const,
-        brightness: 0.5
-      };
-      const metaB = photoMeta[b.photo.src] ?? {
-        orientation: "portrait" as const,
-        colorGroup: "soft" as const,
-        brightness: 0.5
-      };
+    const sortByStoredMeta = (
+      a: WorkPhotoItem,
+      b: WorkPhotoItem,
+      priorityCategories: string[]
+    ) => {
+      const priorityA = priorityCategories.indexOf(a.work.category);
+      const priorityB = priorityCategories.indexOf(b.work.category);
+      const normalizedPriorityA = priorityA === -1 ? 999 : priorityA;
+      const normalizedPriorityB = priorityB === -1 ? 999 : priorityB;
+
+      if (normalizedPriorityA !== normalizedPriorityB) {
+        return normalizedPriorityA - normalizedPriorityB;
+      }
 
       const colorDifference =
-        colorOrder.indexOf(metaA.colorGroup) - colorOrder.indexOf(metaB.colorGroup);
+        colorOrder.indexOf(getColorGroup(a.photo)) - colorOrder.indexOf(getColorGroup(b.photo));
 
       if (colorDifference !== 0) {
         return colorDifference;
       }
 
-      const brightnessDifference = metaA.brightness - metaB.brightness;
-      if (Math.abs(brightnessDifference) > 0.03) {
+      const brightnessDifference = getBrightnessWeight(a.photo) - getBrightnessWeight(b.photo);
+      if (brightnessDifference !== 0) {
         return brightnessDifference;
       }
 
@@ -275,25 +167,29 @@ export function WorkPhotoGrid({
       return a.photo.alt.localeCompare(b.photo.alt, "en");
     };
 
-    grouped.portraitItems.sort(sortByColor);
-    grouped.landscapeItems.sort(sortByColor);
+    grouped.portraitItems.sort((a, b) =>
+      sortByStoredMeta(a, b, portraitPriorityCategories)
+    );
+    grouped.landscapeItems.sort((a, b) =>
+      sortByStoredMeta(a, b, landscapePriorityCategories)
+    );
 
     return grouped;
-  }, [items, mixedThemes, photoMeta]);
+  }, [items, mixedThemes]);
 
   return (
     <div className="stack-xl">
       <PhotoSection
-        items={portraitItems}
-        title="Vertical Frames"
-        description="Portrait-oriented photographs gathered first for a steadier rhythm."
-        variant="portrait"
-      />
-      <PhotoSection
         items={landscapeItems}
         title="Horizontal Frames"
-        description="Landscape-oriented photographs follow as a wider second movement."
+        description="Landscape-oriented photographs lead first, with selected series given the front of the sequence."
         variant="landscape"
+      />
+      <PhotoSection
+        items={portraitItems}
+        title="Vertical Frames"
+        description="Portrait-oriented photographs follow, with selected series held near the front."
+        variant="portrait"
       />
     </div>
   );

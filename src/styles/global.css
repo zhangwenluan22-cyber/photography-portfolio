@@ -588,6 +588,146 @@ button {
   color: #7b3842;
 }
 
+.mobile-page {
+  min-height: 100vh;
+  padding: 24px 18px 56px;
+}
+
+.mobile-page-header,
+.mobile-page-section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.mobile-page-header {
+  align-items: start;
+  margin-bottom: 28px;
+}
+
+.mobile-page-title,
+.mobile-page-headline,
+.mobile-feature-copy h3 {
+  margin: 0;
+  font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  letter-spacing: 0.01em;
+}
+
+.mobile-page-title {
+  font-size: 2.3rem;
+  line-height: 0.95;
+}
+
+.mobile-page-back,
+.mobile-theme-pill,
+.mobile-contact-link {
+  color: var(--accent);
+}
+
+.mobile-page-hero,
+.mobile-page-section,
+.mobile-series-card,
+.mobile-contact-card,
+.mobile-feature-card {
+  margin-bottom: 28px;
+}
+
+.mobile-page-headline {
+  font-size: 2.3rem;
+  font-weight: 500;
+  line-height: 1.04;
+}
+
+.mobile-page-copy {
+  color: var(--text-soft);
+}
+
+.mobile-featured-list,
+.mobile-series-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.mobile-feature-link {
+  display: block;
+}
+
+.mobile-feature-image,
+.mobile-series-image {
+  width: 100%;
+  object-fit: cover;
+}
+
+.mobile-feature-image {
+  aspect-ratio: 4 / 5;
+  margin-bottom: 12px;
+}
+
+.mobile-feature-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobile-theme-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.mobile-theme-pill {
+  border: 1px solid var(--line);
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.42);
+  color: var(--text-soft);
+}
+
+.mobile-series-card {
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.mobile-series-showcase {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mobile-series-lead-image {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+.mobile-series-lead-image.is-portrait {
+  aspect-ratio: 4 / 5;
+}
+
+.mobile-series-lead-image.is-landscape {
+  aspect-ratio: 5 / 4;
+}
+
+.mobile-series-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.mobile-series-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.mobile-contact-card {
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
 code {
   font-family: "SFMono-Regular", "SF Mono", Menlo, Consolas, monospace;
 }
