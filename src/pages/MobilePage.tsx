@@ -94,6 +94,7 @@ export function MobilePage() {
           const seriesPhotos = getSeriesPhotos(work.photos);
           const leadPhoto = seriesPhotos[0];
           const supportingPhotos = seriesPhotos.slice(1, 4);
+          const isTwoPhotoSeries = seriesPhotos.length === 2;
 
           return (
             <article key={work.id} id={work.slug} className="mobile-series-card">
@@ -111,7 +112,18 @@ export function MobilePage() {
                 <p className="mobile-page-copy">{work.description}</p>
               ) : null}
 
-              {leadPhoto ? (
+              {isTwoPhotoSeries ? (
+                <div className="mobile-series-pair">
+                  {seriesPhotos.map((photo) => (
+                    <img
+                      key={photo.id}
+                      src={photo.src}
+                      alt={photo.alt || work.title}
+                      className="mobile-series-pair-image"
+                    />
+                  ))}
+                </div>
+              ) : leadPhoto ? (
                 <div className="mobile-series-showcase">
                   <img
                     src={leadPhoto.src}
