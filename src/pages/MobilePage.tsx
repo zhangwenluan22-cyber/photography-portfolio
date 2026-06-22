@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { siteConfig } from "../data/siteContent";
+import { resolveAssetPath } from "../lib/image-utils";
 import { usePortfolio } from "../lib/portfolio-context";
 
 function getSeriesPhotos(
@@ -55,7 +56,7 @@ export function MobilePage() {
             <article key={work.id} className="mobile-feature-card">
               <Link to={`/works/${work.slug}`} className="mobile-feature-link">
                 <img
-                  src={work.photos[0]?.src ?? ""}
+                  src={resolveAssetPath(work.photos[0]?.src)}
                   alt={work.photos[0]?.alt ?? work.title}
                   className="mobile-feature-image"
                 />
@@ -117,7 +118,7 @@ export function MobilePage() {
                   {seriesPhotos.map((photo) => (
                     <img
                       key={photo.id}
-                      src={photo.src}
+                      src={resolveAssetPath(photo.src)}
                       alt={photo.alt || work.title}
                       className="mobile-series-pair-image"
                     />
@@ -126,7 +127,7 @@ export function MobilePage() {
               ) : leadPhoto ? (
                 <div className="mobile-series-showcase">
                   <img
-                    src={leadPhoto.src}
+                    src={resolveAssetPath(leadPhoto.src)}
                     alt={leadPhoto.alt || work.title}
                     className={`mobile-series-lead-image ${
                       leadPhoto.orientation === "portrait"
@@ -140,7 +141,7 @@ export function MobilePage() {
                       {supportingPhotos.map((photo) => (
                         <img
                           key={photo.id}
-                          src={photo.src}
+                          src={resolveAssetPath(photo.src)}
                           alt={photo.alt || work.title}
                           className="mobile-series-image"
                         />

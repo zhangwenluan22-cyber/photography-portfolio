@@ -1,6 +1,22 @@
 import { createId } from "./utils";
 import type { WorkPhoto } from "../types";
 
+export function resolveAssetPath(src = "") {
+  if (!src || /^(data:|https?:|blob:)/.test(src) || !src.startsWith("/")) {
+    return src;
+  }
+
+  const meta = import.meta as unknown as { env: { BASE_URL: string } };
+  const base = meta.env.BASE_URL.replace(/\/$/, "");
+  return `${base}${src}`;
+}
+
+export function getRouterBasename() {
+  const meta = import.meta as unknown as { env: { BASE_URL: string } };
+  const base = meta.env.BASE_URL.replace(/\/$/, "");
+  return base || "/";
+}
+
 function readFileAsDataUrl(file: File) {
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();

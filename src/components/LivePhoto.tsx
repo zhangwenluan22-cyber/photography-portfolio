@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { resolveAssetPath } from "../lib/image-utils";
 
 interface LivePhotoProps {
   imageSrc: string;
@@ -18,6 +19,8 @@ export function LivePhoto({
   frameClassName = ""
 }: LivePhotoProps) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const resolvedImageSrc = resolveAssetPath(imageSrc);
+  const resolvedVideoSrc = videoSrc ? resolveAssetPath(videoSrc) : undefined;
   const pressTimerRef = useRef<number | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const isPressingRef = useRef(false);
@@ -50,7 +53,7 @@ export function LivePhoto({
   }, [isPlaying]);
 
   const startPress = () => {
-    if (!videoSrc) {
+    if (!resolvedVideoSrc) {
       return;
     }
 
@@ -89,18 +92,18 @@ export function LivePhoto({
         }
       }}
       onContextMenu={(event) => {
-        if (videoSrc) {
+        if (resolvedVideoSrc) {
           event.preventDefault();
         }
       }}
     >
-      <img src={imageSrc} alt={imageAlt} className={`${className} ${imageClassName}`.trim()} />
-      {videoSrc ? (
+      <img src={resolvedImageSrc} alt={imageAlt} className={`${className} ${imageClassName}`.trim()} />
+      {resolvedVideoSrc ? (
         <>
           <video
             ref={videoRef}
             className={`live-photo-video ${className}`.trim()}
-            src={videoSrc}
+            src={resolvedVideoSrc}
             muted
             playsInline
             preload="metadata"
@@ -108,7 +111,7 @@ export function LivePhoto({
           <span className="live-photo-badge">Hold for live</span>
         </>
       ) : null}
-      {videoSrc ? (
+      {resolvedVideoSrc ? (
         <div className="live-photo-overlay" aria-hidden="true" />
       ) : null}
     </div>

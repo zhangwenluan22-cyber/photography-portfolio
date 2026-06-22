@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { COLOR_TAGS, WORK_CATEGORIES, type AdminWorkFormValues, type ColorTag, type Work, type WorkPhoto } from "../types";
 import { usePortfolio } from "../lib/portfolio-context";
-import { fileToVideoDataUrl, filesToWorkPhotos } from "../lib/image-utils";
+import { fileToVideoDataUrl, filesToWorkPhotos, resolveAssetPath } from "../lib/image-utils";
 import { siteConfig } from "../data/siteContent";
 
 const emptyForm: AdminWorkFormValues = {
@@ -546,7 +546,7 @@ export function AdminPage() {
                 {photos.map((photo) => (
                   <figure key={photo.id} className="preview-item">
                     {photo.src ? (
-                      <img src={photo.src} alt={photo.alt || "Photo preview"} />
+                      <img src={resolveAssetPath(photo.src)} alt={photo.alt || "Photo preview"} />
                     ) : (
                       <div className="preview-placeholder">No image source yet</div>
                     )}
@@ -632,7 +632,7 @@ export function AdminPage() {
         <div className="admin-list">
           {works.map((work) => (
             <article key={work.id} className="admin-list-item">
-              <img src={work.photos[0]?.src} alt={work.title} className="admin-thumb" />
+              <img src={resolveAssetPath(work.photos[0]?.src)} alt={work.title} className="admin-thumb" />
               <div className="admin-list-copy">
                 <p className="work-category">{work.category}</p>
                 <h3>{work.title}</h3>
