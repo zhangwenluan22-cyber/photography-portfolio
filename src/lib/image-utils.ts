@@ -1,19 +1,19 @@
 import { createId } from "./utils";
 import type { WorkPhoto } from "../types";
 
+const baseUrl = import.meta.env.BASE_URL;
+
 export function resolveAssetPath(src = "") {
   if (!src || /^(data:|https?:|blob:)/.test(src) || !src.startsWith("/")) {
     return src;
   }
 
-  const meta = import.meta as unknown as { env: { BASE_URL: string } };
-  const base = meta.env.BASE_URL.replace(/\/$/, "");
+  const base = baseUrl.replace(/\/$/, "");
   return `${base}${src}`;
 }
 
 export function getRouterBasename() {
-  const meta = import.meta as unknown as { env: { BASE_URL: string } };
-  const base = meta.env.BASE_URL.replace(/\/$/, "");
+  const base = baseUrl.replace(/\/$/, "");
   return base || "/";
 }
 
