@@ -63,16 +63,6 @@
         ]
       },
       {
-        "id": "chiangmai-6",
-        "src": "/uploads/ChiangMai/ChiangMai-008.jpg",
-        "alt": "ChiangMai 008",
-        "orientation": "portrait",
-        "colorTags": [
-          "blue",
-          "warm"
-        ]
-      },
-      {
         "id": "chiangmai-7",
         "src": "/uploads/ChiangMai/ChiangMai-009.jpg",
         "alt": "ChiangMai 009",
@@ -98,6 +88,18 @@
         "colorTags": [
           "warm"
         ]
+      },
+      {
+        "id": "chiangmai-10",
+        "src": "/uploads/ChiangMai/ChiangMai-012.jpg",
+        "alt": "ChiangMai 012",
+        "orientation": "portrait"
+      },
+      {
+        "id": "chiangmai-11",
+        "src": "/uploads/ChiangMai/ChiangMai-013.JPG",
+        "alt": "ChiangMai 013",
+        "orientation": "portrait"
       }
     ]
   },
