@@ -22,7 +22,11 @@ export function WorkDetailPage() {
   const selectedPhoto = selectedPhotoId
     ? work?.photos.find((photo) => photo.id === selectedPhotoId)
     : null;
-  const visiblePhotos = selectedPhoto ? [selectedPhoto] : work?.photos ?? [];
+  const seriesPhotos =
+    work?.photos.filter(
+      (photo) => !photo.id.endsWith("-cover") && !photo.src.includes("/_covers/")
+    ) ?? [];
+  const visiblePhotos = selectedPhoto ? [selectedPhoto] : seriesPhotos;
 
   useEffect(() => {
     if (!location.hash) {
